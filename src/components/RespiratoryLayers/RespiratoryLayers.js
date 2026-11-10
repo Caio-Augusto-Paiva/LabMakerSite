@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import styles from './RespiratoryLayers.module.css';
 import { LAYERS } from './respiratoryArt';
 
@@ -24,8 +24,9 @@ export default function RespiratoryLayers({ className = '' }) {
   const closeTimer = useRef(null);
   const sayTimer = useRef(null);
   const btnRefs = useRef([]);
-  const wasClosed = useRef(false);
   const openRef = useRef(false);
+  const lastPointer = useRef('mouse');
+  const sceneId = useId();
 
   const isOpen = forceOpen || hovering || touchOpen || pinned !== null || focusIdx !== null;
   openRef.current = isOpen;
@@ -87,6 +88,7 @@ export default function RespiratoryLayers({ className = '' }) {
     if (e.pointerType === 'touch') return;
     clearTimeout(closeTimer.current);
     const r = stageRef.current.getBoundingClientRect();
+    if (!r.height || !r.width) return;
     const yf = Math.min(0.999, Math.max(0, (e.clientY - r.top) / r.height));
     const xf = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
     setHovering(true);
@@ -105,9 +107,7 @@ export default function RespiratoryLayers({ className = '' }) {
   };
 
   const onPointerDown = (e) => {
-    if (e.pointerType !== 'touch') return;
-    wasClosed.current = !openRef.current;
-    setTouchOpen(true);
+    lastPointer.current = e.pointerType;
   };
 
   const togglePin = (i) => {
@@ -117,16 +117,28 @@ export default function RespiratoryLayers({ className = '' }) {
     say(next === null ? `Camada solta: ${l.name}.` : `Camada fixada: ${l.name}. ${l.text}`);
   };
 
-  const onPlateClick = (e, i) => {
-    e.stopPropagation();
-    if (e.pointerType === 'touch' || e.nativeEvent?.pointerType === 'touch') {
-      if (wasClosed.current) {
-        wasClosed.current = false;
-        return;
-      }
-      setHoverIdx(i);
+  // As placas se sobrepõem no espaço 3D, então o clique no palco usa a mesma faixa de Y do hover.
+  // No toque: o 1º toque só abre; os seguintes fixam a camada da altura tocada.
+  const onStageClick = (e) => {
+    const r = stageRef.current?.getBoundingClientRect();
+    if (!r || !r.height) return;
+    if (lastPointer.current === 'touch' && !openRef.current) {
+      setTouchOpen(true);
+      return;
     }
-    togglePin(i);
+    const yf = Math.min(0.999, Math.max(0, (e.clientY - r.top) / r.height));
+    togglePin(Math.floor(yf * COUNT));
+  };
+
+  // Esc solta a camada fixada e fecha a pilha
+  const onRootKeyDown = (e) => {
+    if (e.key !== 'Escape') return;
+    setPinned(null);
+    setForceOpen(false);
+    setTouchOpen(false);
+    setHovering(false);
+    setHoverIdx(null);
+    setTilt(0);
   };
 
   const toggleOpen = () => {
@@ -170,14 +182,16 @@ export default function RespiratoryLayers({ className = '' }) {
     .join(' ');
 
   return (
-    <div className={cls}>
+    <div className={cls} onKeyDown={onRootKeyDown}>
       <div
         ref={stageRef}
+        id={sceneId}
         className={styles.stage}
         onPointerEnter={onPointerEnter}
         onPointerMove={onPointerMove}
         onPointerLeave={onPointerLeave}
         onPointerDown={onPointerDown}
+        onClick={onStageClick}
       >
         <div
           ref={sceneRef}
@@ -198,12 +212,7 @@ export default function RespiratoryLayers({ className = '' }) {
               .filter(Boolean)
               .join(' ');
             return (
-              <div
-                key={l.id}
-                className={slabCls}
-                style={{ '--i': i }}
-                onClick={(e) => onPlateClick(e, i)}
-              >
+              <div key={l.id} className={slabCls} style={{ '--i': i }}>
                 <l.Art className={styles.art} />
               </div>
             );
@@ -230,6 +239,7 @@ export default function RespiratoryLayers({ className = '' }) {
             type="button"
             className={`${styles.ctrl} mono`}
             aria-expanded={isOpen}
+            aria-controls={sceneId}
             onClick={toggleOpen}
           >
             {isOpen ? 'Fechar camadas' : 'Abrir camadas'}
@@ -239,6 +249,7 @@ export default function RespiratoryLayers({ className = '' }) {
             className={`${styles.ctrl} mono`}
             aria-pressed={breathing}
             disabled={reduced}
+            title={reduced ? 'Desativado: movimento reduzido' : undefined}
             onClick={() => setBreathOn((v) => !v)}
           >
             Respirar
@@ -259,8 +270,12 @@ export default function RespiratoryLayers({ className = '' }) {
                 onClick={() => togglePin(i)}
                 onFocus={() => onListFocus(i)}
                 onKeyDown={(e) => onListKey(e, i)}
-                onMouseEnter={() => setHoverIdx(i)}
-                onMouseLeave={() => setHoverIdx(null)}
+                onPointerEnter={(e) => {
+                  if (e.pointerType !== 'touch') setHoverIdx(i);
+                }}
+                onPointerLeave={(e) => {
+                  if (e.pointerType !== 'touch') setHoverIdx(null);
+                }}
               >
                 <span className={`${styles.itemNum} mono`}>{pad(l.number)}</span>
                 <span className={styles.itemName}>{l.name}</span>

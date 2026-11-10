@@ -203,9 +203,10 @@ export default async function AreaPage({ params }) {
                 respiratório
               </h2>
               <p>
-                O sistema respiratório desmontado em quatro camadas. Passe o mouse (ou toque) sobre
-                o desenho para abri-lo e deslize para baixo para escolher uma camada. Clique para
-                fixar e use o botão Respirar para ver o ar entrar e sair.
+                O sistema respiratório desmontado em quatro camadas. Passe o mouse sobre o desenho
+                para abri-lo e deslize para baixo para escolher uma camada; clique para fixá-la. No
+                celular, toque no desenho para abrir e toque na altura da camada (ou use a lista).
+                O botão Respirar mostra o ar entrando e saindo.
               </p>
             </header>
             <RespiratoryLayers />

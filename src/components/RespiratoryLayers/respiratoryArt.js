@@ -31,7 +31,7 @@ function Svg({ className, children }) {
 
 function Tag({ children }) {
   return (
-    <text x="12" y="390" fontSize="9" fill="currentColor" stroke="none" style={MONO}>
+    <text x="12" y="390" fontSize="11" fill="currentColor" stroke="none" style={MONO}>
       {children}
     </text>
   );
@@ -39,7 +39,6 @@ function Tag({ children }) {
 
 // Linha de chamada: ponto em (x1,y1), cruz de registro em (x2,y2), rótulo opcional.
 function Lead({ x1, y1, x2, y2, label, anchor = 'start' }) {
-  const tx = anchor === 'end' ? x2 + 4 : x2 - 4;
   return (
     <g>
       <line x1={x1} y1={y1} x2={x2} y2={y2} {...S} />
@@ -50,11 +49,10 @@ function Lead({ x1, y1, x2, y2, label, anchor = 'start' }) {
           x={anchor === 'end' ? x2 + 4 : x2 - 4}
           y={y2 - 7}
           textAnchor={anchor === 'end' ? 'end' : 'start'}
-          fontSize="9"
+          fontSize="11"
           fill="currentColor"
           stroke="none"
           style={MONO}
-          data-x={tx}
         >
           {label}
         </text>
@@ -145,8 +143,8 @@ export function LungsArt({ className }) {
         <ellipse cx="183" cy="152" rx="8" ry="15" {...S} />
         <path d="M149 146L156 140M149 156L156 160M175 146L168 140M175 156L168 160" {...S} />
       </g>
-      <Lead x1={110} y1={205} x2={20} y2={236} label="PULMÃO DIREITO · 3 LOBOS" />
-      <Lead x1={208} y1={150} x2={300} y2={104} label="PULMÃO ESQUERDO · 2 LOBOS" anchor="end" />
+      <Lead x1={108} y1={215} x2={22} y2={334} label="DIREITO · 3 LOBOS" />
+      <Lead x1={208} y1={150} x2={300} y2={96} label="ESQUERDO · 2 LOBOS" anchor="end" />
       <Tag>02 · PULMÕES</Tag>
     </Svg>
   );
