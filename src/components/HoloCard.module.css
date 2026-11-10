@@ -1,0 +1,368 @@
+/* ==========================================================================
+   HoloCard — tilt 3D + levita no hover + vira no clique + folha holográfica.
+   Variáveis dinâmicas (setadas por JS no pointermove):
+     --mx / --my   posição do ponteiro (0–1)
+     --rx / --ry   inclinação
+   ========================================================================== */
+
+.card {
+  --mx: 0.5;
+  --my: 0.5;
+  --rx: 0deg;
+  --ry: 0deg;
+  --flip: 0deg;
+  --lift: 0;
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  perspective: 1000px;
+  border-radius: 18px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flipped {
+  --flip: 180deg;
+}
+
+/* sombra projetada no "chão" — reage ao hover */
+.shadow {
+  position: absolute;
+  inset: 8% 6% -4%;
+  border-radius: 22px;
+  background: radial-gradient(closest-side, rgba(10, 24, 90, 0.7), transparent);
+  filter: blur(18px);
+  opacity: 0.45;
+  transform: translateY(6%) scale(0.92);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+
+.inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(calc(var(--ry) + var(--flip)));
+  transition: transform 0.5s var(--ease), translate 0.4s var(--ease), scale 0.4s var(--ease);
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .card:hover .inner,
+  .card:focus-within .inner {
+    translate: 0 -10px;
+    scale: 1.045;
+    /* seguindo o ponteiro: sem atraso */
+    transition: transform 0.12s linear, translate 0.4s var(--ease), scale 0.4s var(--ease);
+  }
+  .card:hover .shadow,
+  .card:focus-within .shadow {
+    opacity: 0.8;
+    transform: translateY(14%) scale(1);
+  }
+  .card:hover .foil,
+  .card:focus-within .foil {
+    opacity: var(--foil-on);
+  }
+  .card:hover .glare,
+  .card:focus-within .glare {
+    opacity: 1;
+  }
+}
+
+.flipped {
+  /* virado: sem inclinação, para ler e clicar no botão com calma */
+  --rx: 0deg !important;
+  --ry: 0deg !important;
+}
+.flipped .inner {
+  transition: transform 0.62s var(--ease), translate 0.4s var(--ease), scale 0.4s var(--ease);
+  translate: 0 -10px;
+  scale: 1.045;
+}
+
+.front:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* faces ------------------------------------------------------------------- */
+
+/* a frente é um <button>: zera o estilo padrão */
+.face {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--brand);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.42) inset,
+    0 18px 40px -20px rgba(10, 24, 90, 0.85);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  flex: none;
+  background: var(--brand);
+}
+
+.img {
+  object-fit: cover;
+}
+
+.caption {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.9rem 0.7rem;
+  background: var(--brand-night);
+  color: var(--white);
+}
+
+.no {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-text);
+}
+
+.title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.arrow {
+  font-size: 1.1rem;
+  transition: transform 0.3s var(--ease);
+}
+.card:hover .arrow {
+  transform: translate(3px, -3px);
+}
+
+/* verso ------------------------------------------------------------------- */
+
+.back {
+  transform: rotateY(180deg);
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 1.1rem 1.1rem 1.2rem;
+  color: var(--white);
+  background:
+    linear-gradient(var(--line-light) 1px, transparent 1px) 0 0 / 100% 28px,
+    linear-gradient(90deg, var(--line-light) 1px, transparent 1px) 0 0 / 28px 100%,
+    linear-gradient(160deg, var(--brand-deep), var(--brand-night));
+}
+
+.back {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.backTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backBtn {
+  min-height: 32px;
+  padding: 0 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.backBtn:hover {
+  background: var(--white);
+  color: var(--brand-night);
+}
+
+.backTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
+  line-height: 1;
+}
+
+.backText {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* botão que leva à página da área */
+.goBtn {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--brand-night);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s, transform 0.2s var(--ease);
+}
+.goBtn:hover {
+  background: var(--accent);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.goBtn:focus-visible,
+.backBtn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* folha holográfica ------------------------------------------------------- */
+
+.foil,
+.glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease);
+}
+
+.foil {
+  --foil-on: 0.62;
+  opacity: 0.15;
+  mix-blend-mode: color-dodge;
+  background-size: 260% 260%;
+  background-position: calc(var(--mx) * 100%) calc(var(--my) * 100%);
+}
+
+.glare {
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: radial-gradient(
+    circle at calc(var(--mx) * 100%) calc(var(--my) * 100%),
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.15) 38%,
+    transparent 62%
+  );
+}
+
+/* rainbow: faixas espectrais diagonais */
+.card[data-effect="rainbow"] .foil {
+  background-image: repeating-linear-gradient(
+    115deg,
+    #ff5f6d 0%,
+    #ffc371 8%,
+    #6bff9e 16%,
+    #6bd6ff 24%,
+    #b36bff 32%,
+    #ff6bd6 40%,
+    #ff5f6d 48%
+  );
+  filter: saturate(1.25) contrast(1.1);
+}
+
+/* aurora: véus verde/ciano/magenta que seguem o ponteiro */
+.card[data-effect="aurora"] .foil {
+  background-image:
+    radial-gradient(ellipse 60% 40% at calc(var(--mx) * 100%) calc(var(--my) * 100%), #7dffd0, transparent 70%),
+    radial-gradient(ellipse 50% 60% at calc((1 - var(--mx)) * 100%) calc((1 - var(--my)) * 100%), #c04cff, transparent 70%),
+    linear-gradient(160deg, #4cffb0, #4c9bff 50%, #ff6bd6);
+  background-size: 100% 100%, 100% 100%, 220% 220%;
+  background-position: 0 0, 0 0, calc(var(--mx) * 100%) calc(var(--my) * 100%);
+  mix-blend-mode: hard-light;
+  --foil-on: 0.5;
+}
+
+/* shards: lascas geométricas (vidro facetado) */
+.card[data-effect="shards"] .foil {
+  background-image:
+    conic-gradient(from calc(var(--mx) * 140deg) at 28% 34%,
+      transparent 0 10%, rgba(120, 210, 255, 0.95) 10% 15%, transparent 15% 30%,
+      rgba(255, 255, 255, 0.95) 30% 33%, transparent 33% 58%,
+      rgba(255, 150, 220, 0.9) 58% 64%, transparent 64%),
+    conic-gradient(from calc(var(--my) * -140deg) at 78% 68%,
+      transparent 0 14%, rgba(190, 255, 210, 0.9) 14% 19%, transparent 19% 46%,
+      rgba(255, 235, 140, 0.95) 46% 52%, transparent 52% 80%,
+      rgba(255, 255, 255, 0.9) 80% 83%, transparent 83%),
+    linear-gradient(125deg, transparent 30%, rgba(255, 255, 255, 0.5) 31%, transparent 33%,
+      transparent 62%, rgba(140, 220, 255, 0.55) 63%, transparent 65%);
+  background-size: 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0, calc(var(--mx) * 40%) 0;
+  --foil-on: 0.7;
+}
+
+/* stars: poeira de estrelas sobre arco-íris suave */
+.card[data-effect="stars"] .foil {
+  background-image:
+    radial-gradient(circle, #fff 0 1.3px, transparent 2.6px),
+    radial-gradient(circle, #fff 0 0.9px, transparent 1.9px),
+    radial-gradient(circle, #ffe9a8 0 1px, transparent 2px),
+    linear-gradient(125deg, #6bd6ff, #b36bff 35%, #ff6bd6 65%, #6bd6ff);
+  background-size: 36px 36px, 23px 23px, 51px 51px, 240% 240%;
+  background-position:
+    calc(var(--mx) * 36px) calc(var(--my) * 36px),
+    calc(var(--mx) * -23px + 11px) calc(var(--my) * -23px + 7px),
+    calc(var(--mx) * 30px) calc(var(--my) * -30px),
+    calc(var(--mx) * 100%) calc(var(--my) * 100%);
+  --foil-on: 0.7;
+}
+
+/* gold: folha metálica dourada */
+.card[data-effect="gold"] .foil {
+  background-image: linear-gradient(
+    115deg,
+    #7a5200 0%,
+    #ffd66b 18%,
+    #fff3c4 28%,
+    #ffb52e 40%,
+    #7a5200 55%,
+    #ffd66b 70%,
+    #fff3c4 78%,
+    #7a5200 100%
+  );
+  mix-blend-mode: overlay;
+  --foil-on: 0.9;
+}
+
+/* toque / sem hover: folha sempre levemente visível, sem inclinar */
+@media (prefers-reduced-motion: reduce) {
+  .inner {
+    transform: rotateY(var(--flip));
+    transition: none;
+  }
+  .card:hover .inner {
+    translate: none;
+    scale: 1;
+  }
+}
