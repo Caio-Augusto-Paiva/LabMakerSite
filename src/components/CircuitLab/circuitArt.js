@@ -469,60 +469,60 @@ export function CircuitBlueprint({ className, drawn }) {
         <Cross x={14} y={346} />
         <Cross x={466} y={346} />
 
-        {/* envoltório da bateria e cota de 9 V */}
+        {/* envoltório da bateria e cota de 4,5 V (3 células de 1,5 V em série) */}
         <path d="M44 140 H96 V212 H44 Z" vectorEffect={VE} strokeOpacity="0.45" strokeDasharray="3 3" />
         <path d="M36 140 V212 M30 140 H42 M30 212 H42" vectorEffect={VE} strokeOpacity="0.7" />
         <path d="M97 146 h6 M100 143 v6 M97 210 h6" vectorEffect={VE} />
-        <Tag x={9} y={180} size={9}>
-          9 V
+        <Tag x={6} y={132} size={12}>
+          4,5 V
         </Tag>
-        <Tag x={104} y={186} size={9}>
+        <Tag x={104} y={186} size={12}>
           BT1
         </Tag>
 
         {/* designações */}
-        <Tag x={134} y={56} size={9} anchor="middle">
+        <Tag x={134} y={56} size={12} anchor="middle">
           S1
         </Tag>
-        <Tag x={238} y={56} size={9} anchor="middle">
+        <Tag x={238} y={56} size={12} anchor="middle">
           F1
         </Tag>
-        <Tag x={320} y={240} size={9} anchor="middle">
+        <Tag x={320} y={240} size={12} anchor="middle">
           L1
         </Tag>
-        <Tag x={375} y={240} size={9} anchor="middle">
+        <Tag x={375} y={240} size={12} anchor="middle">
           R1
         </Tag>
-        <Tag x={430} y={246} size={9} anchor="middle">
+        <Tag x={430} y={246} size={12} anchor="middle">
           M1
         </Tag>
-        <Tag x={394} y={186} size={8}>
-          10 Ω
+        <Tag x={367} y={256} size={11} anchor="end">
+          1 kΩ
         </Tag>
 
         {/* seta do sentido convencional da corrente */}
         <path d="M332 56 H362 M356 52 L362 56 L356 60" vectorEffect={VE} />
-        <Tag x={347} y={48} size={9} anchor="middle">
+        <Tag x={347} y={48} size={12} anchor="middle">
           I
         </Tag>
 
         {/* corte A–A */}
         <path d="M292 40 V322" vectorEffect={VE} strokeOpacity="0.5" strokeDasharray="8 3 2 3" />
-        <Tag x={292} y={34} size={9} anchor="middle">
+        <Tag x={292} y={34} size={12} anchor="middle">
           A
         </Tag>
-        <Tag x={292} y={334} size={9} anchor="middle">
+        <Tag x={292} y={334} size={12} anchor="middle">
           A
         </Tag>
-        <Tag x={302} y={334} size={8}>
-          ÁREA A–A
+        <Tag x={302} y={334} size={11}>
+          CORTE A–A
         </Tag>
 
         {/* legenda */}
-        <Tag x={36} y={334} size={8}>
-          CIRCUITO EM PARALELO
+        <Tag x={36} y={334} size={11}>
+          CARGAS EM PARALELO
         </Tag>
-        <Tag x={450} y={334} size={8} anchor="end">
+        <Tag x={450} y={334} size={11} anchor="end">
           ESC 1:1
         </Tag>
       </g>

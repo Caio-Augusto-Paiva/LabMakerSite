@@ -38,7 +38,7 @@ export const CIRCUIT_ITEMS = [
     id: "pilha",
     name: "Pilha",
     group: "fontes",
-    fact: "Converte energia química em energia elétrica e fornece tensão contínua (uma pilha comum de 1,5 V).",
+    fact: "Converte energia química em energia elétrica e fornece tensão contínua (1,5 V numa pilha comum).",
   },
   {
     id: "bateria",
@@ -56,19 +56,19 @@ export const CIRCUIT_ITEMS = [
     id: "lampada",
     name: "Lâmpada",
     group: "cargas",
-    fact: "Transforma energia elétrica em luz (e um pouco de calor) quando a corrente passa por ela.",
+    fact: "Transforma energia elétrica em luz e calor quando a corrente passa por ela (a lâmpada incandescente esquenta bastante).",
   },
   {
     id: "resistor",
     name: "Resistor",
     group: "cargas",
-    fact: "Limita a corrente do circuito e transforma parte da energia em calor. Seu valor é medido em ohms (Ω).",
+    fact: "Transforma energia elétrica em calor (efeito Joule) e, com isso, limita a corrente do circuito. Seu valor é medido em ohms (Ω).",
   },
   {
     id: "motor",
     name: "Motor",
     group: "cargas",
-    fact: "Transforma energia elétrica em movimento, a energia mecânica.",
+    fact: "Transforma energia elétrica em movimento (energia mecânica).",
   },
   {
     id: "interruptor",
@@ -95,10 +95,9 @@ export const CIRCUIT_COPY = {
   intro: "Separe os componentes nas três classes do circuito. Arraste, ou selecione um cartão e escolha a classe.",
   unit: "componentes",
   reportTag: "LAB-CIRCUITOS",
-  scaleTag: "ESQUEMA ELÉTRICO · 9 V",
+  scaleTag: "ESQUEMA ELÉTRICO · 4,5 V",
   stampTitle: "CIRCUITO FECHADO",
   bannerText: "Circuito completo",
-  resultLabel: "Resultado do laboratório de circuitos",
   emptyTray: "Bandeja vazia · circuito completo",
   victoryShape: "landscape", // o esquema do circuito é mais largo que alto
 };
