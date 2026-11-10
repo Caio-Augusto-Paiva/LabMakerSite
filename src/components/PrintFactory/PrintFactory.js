@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './PrintFactory.module.css';
 
 /* Esteira de produção teórica de impressão 3D (CSS 3D puro, sem libs).
@@ -85,6 +85,17 @@ export default function PrintFactory({ className = '' }) {
   const [sel, setSel] = useState(2);
   const [camId, setCamId] = useState('iso');
   const [paused, setPaused] = useState(false);
+  const [onScreen, setOnScreen] = useState(true);
+  const rootRef = useRef(null);
+
+  // As ~125 faces animadas da esteira só rodam enquanto ela está visível (economiza CPU/GPU na rolagem)
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting), { rootMargin: '120px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const cam = CAMERAS.find((c) => c.id === camId) || CAMERAS[0];
   const st = STATIONS[sel];
@@ -97,7 +108,7 @@ export default function PrintFactory({ className = '' }) {
   });
 
   return (
-    <div className={`${styles.root} ${paused ? styles.paused : ''} ${className}`}>
+    <div ref={rootRef} className={`${styles.root} ${paused || !onScreen ? styles.paused : ''} ${className}`}>
       {/* Barra de controles */}
       <div className={styles.bar}>
         <div className={styles.cams} role="group" aria-label="Câmeras">

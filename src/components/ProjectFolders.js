@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { isScrolling } from "@/lib/scrollState";
 import Placeholder from "./Placeholder";
 import styles from "./ProjectFolders.module.css";
 
@@ -149,7 +150,7 @@ function Folder({ project, index, onOpenFile }) {
 
   // inclina em direção ao ponteiro
   const onMove = (e) => {
-    if (e.pointerType === "touch") return;
+    if (e.pointerType === "touch" || isScrolling()) return;
     const el = ref.current;
     const r = el.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;

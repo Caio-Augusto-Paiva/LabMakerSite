@@ -27,7 +27,7 @@
   gap: 1.2rem;
   padding: 0 1.9rem;
   /* mais opaco que a placa padrão para o texto ficar legível sobre qualquer seção */
-  background: linear-gradient(135deg, rgba(246, 246, 242, 0.82), rgba(236, 236, 230, 0.7));
+  background: linear-gradient(135deg, rgba(246, 246, 242, 0.97), rgba(236, 236, 230, 0.95));
 }
 
 .brand {
