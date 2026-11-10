@@ -1,0 +1,16 @@
+{
+  "name": "labmaker-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Site expositivo do LabMaker — projeto universitário de impressão 3D e extensão.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "16.4.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}
