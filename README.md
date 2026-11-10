@@ -35,6 +35,8 @@ npm start
 - **Projetos (pastas de vidro):** cadastre em `projects` dentro da área em `src/data/areas.js` (formato e exemplo em `src/data/projects.js`).
   Cada projeto tem `files` com `src` (imagem em `public/`), `alt` e `label`; sem `src` aparece o espaço hachurado reservado.
 - **Equipe (crachás, sem fotos):** cadastre em `team` dentro da área em `src/data/areas.js` (formato em `src/data/team.js`). Sem `team`, aparecem 6 crachás de exemplo.
+- **Laboratório de circuitos (página Educação em Foco Tecnológico):** jogo de separar componentes elétricos em 3 classes (fontes, cargas, controle e proteção). Dados e curiosidades em `src/data/circuits.js`; o motor genérico está em `src/components/SortLab/` e a arte em `src/components/CircuitLab/`. Ao acertar tudo, o circuito se fecha (efeito blueprint com corrente).
+- **Sistema respiratório em camadas (página Inovação em Saúde):** `src/components/RespiratoryLayers/` — desenho hairline isométrico em 4 camadas que abre com o ponteiro; textos de cada camada em `respiratoryArt.js`.
 - **Globo de problemas (página Sustentabilidade e Acessibilidade):** `src/data/problems.js`. Os números têm fonte, mas **confira e atualize antes de publicar**; os pontos no globo são ilustrativos.
 - **Outros espaços de imagem** (hero das áreas, galeria de trabalhos, landing): componente `src/components/Placeholder.js`.
   Para colocar uma imagem real, troque `<Placeholder label="…" ratio="…" />` por
@@ -47,6 +49,7 @@ npm start
 - **Pastas de vidro** (`src/components/ProjectFolders.js`): montam ao rolar, inclinam ao ponteiro, abrem em leque e ampliam a imagem num visualizador.
 - **Crachás em trilho** (`src/components/TeamLanyard/`): balançam com física de mola, arrastam pelo trilho e viram para mostrar a bio. Sem fotos.
 - **Globo** (`src/components/ProblemGlobe/`): globo de pontos em canvas (sem WebGL), gira sozinho, arrasta com inércia em qualquer direção (horizontal e vertical, com o mouse; no toque só horizontal para não travar a rolagem da página) e mostra o cartão de cada problema.
+- **Laboratório de circuitos** (`SortLab`): arrastar com o mouse, clicar e escolher a classe (toque e teclado), painéis que travam e efeito de vitória em tela cheia.
 - **Esteira 3D** (`src/components/PrintFactory/`): CSS 3D puro — 5 estações (modelagem → fatiamento → impressão → pós-processamento → entrega),
   5 câmeras, pausar/retomar, detalhe por estação.
 

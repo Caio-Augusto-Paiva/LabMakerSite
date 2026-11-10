@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 import HoloCard from "@/components/HoloCard";
 import Placeholder from "@/components/Placeholder";
 import PrintFactory from "@/components/PrintFactory/PrintFactory";
-import AnatomyLab from "@/components/AnatomyLab/AnatomyLab";
+import CircuitLab from "@/components/CircuitLab/CircuitLab";
 import FitText from "@/components/FitText";
 import ProblemGlobe from "@/components/ProblemGlobe/ProblemGlobe";
 import ProjectFolders from "@/components/ProjectFolders";
+import RespiratoryLayers from "@/components/RespiratoryLayers/RespiratoryLayers";
 import SectionRail from "@/components/SectionRail";
 import TeamLanyard from "@/components/TeamLanyard/TeamLanyard";
 import { SITE, areas, getArea, otherAreas } from "@/data/areas";
-import { ORGANS, SYSTEMS } from "@/data/anatomy";
 import { THEMES, problems } from "@/data/problems";
 import { projectsFor } from "@/data/projects";
 import { teamFor } from "@/data/team";
@@ -37,7 +37,8 @@ export default async function AreaPage({ params }) {
 
   const hasFactory = slug === "escritorio-3d";
   const hasGlobe = slug === "sustentabilidade";
-  const hasAnatomy = slug === "saude";
+  const hasRespiratory = slug === "saude";
+  const hasCircuits = slug === "educacao";
   const total = String(areas.length).padStart(2, "0");
   const maxLen = Math.max(...area.titleLines.map((l) => l.length));
   const aboutTitle = `SOMOS ${area.short}`.toUpperCase();
@@ -47,7 +48,8 @@ export default async function AreaPage({ params }) {
     { id: "topo", label: "Início" },
     { id: "sobre", label: "Sobre" },
     ...(hasGlobe ? [{ id: "mundo", label: "Mundo" }] : []),
-    ...(hasAnatomy ? [{ id: "anatomia", label: "Anatomia" }] : []),
+    ...(hasCircuits ? [{ id: "circuitos", label: "Circuitos" }] : []),
+    ...(hasRespiratory ? [{ id: "respiratorio", label: "Respiratório" }] : []),
     ...(hasFactory ? [{ id: "esteira", label: "Esteira" }] : []),
     { id: "projetos", label: "Projetos" },
     { id: "galeria", label: "Galeria" },
@@ -167,24 +169,46 @@ export default async function AreaPage({ params }) {
         </section>
       )}
 
-      {/* ============ LABORATÓRIO DE ANATOMIA (só Inovação em Saúde) ============ */}
-      {hasAnatomy && (
-        <section id="anatomia" className={`${styles.lab} blueprint`}>
+      {/* ============ LABORATÓRIO DE CIRCUITOS (só Educação em Foco Tecnológico) ============ */}
+      {hasCircuits && (
+        <section id="circuitos" className={`${styles.lab} blueprint`}>
           <div className="wrap">
             <header className={styles.secHead}>
-              <span className={`${styles.secNo} mono`}>{no("anatomia")}</span>
+              <span className={`${styles.secNo} mono`}>{no("circuitos")}</span>
               <h2 className={`${styles.h2} display`}>
                 Laboratório
                 <br />
-                de anatomia
+                de circuitos
               </h2>
               <p>
-                Separe os órgãos nos sistemas do corpo humano. Arraste cada órgão até o painel
-                certo (ou clique no órgão e depois no painel). Quando os três painéis travarem,
-                o modelo completo se revela.
+                Um dos minicursos da equipe é o de circuitos elétricos. Separe os componentes nas
+                três classes de um circuito: arraste cada cartão até o painel certo (ou clique no
+                cartão e escolha a classe). Quando os três painéis travarem, o circuito se fecha.
               </p>
             </header>
-            <AnatomyLab systems={SYSTEMS} organs={ORGANS} />
+            <CircuitLab />
+          </div>
+        </section>
+      )}
+
+      {/* ============ SISTEMA RESPIRATÓRIO EM CAMADAS (só Inovação em Saúde) ============ */}
+      {hasRespiratory && (
+        <section id="respiratorio" className={`${styles.lab} blueprint`}>
+          <div className="wrap">
+            <header className={styles.secHead}>
+              <span className={`${styles.secNo} mono`}>{no("respiratorio")}</span>
+              <h2 className={`${styles.h2} display`}>
+                Sistema
+                <br />
+                respiratório
+              </h2>
+              <p>
+                O sistema respiratório desmontado em quatro camadas. Passe o mouse (ou toque) sobre
+                o desenho para abri-lo e deslize para baixo para escolher uma camada. Clique para
+                fixar e use o botão Respirar para ver o ar entrar e sair.
+              </p>
+            </header>
+            <RespiratoryLayers />
           </div>
         </section>
       )}
