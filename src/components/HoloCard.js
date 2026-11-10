@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { isScrolling } from "@/lib/scrollState";
 import styles from "./HoloCard.module.css";
 
 /**
@@ -38,7 +39,7 @@ export default function HoloCard({
 
   const onPointerMove = useCallback((e) => {
     const el = cardRef.current;
-    if (!el || e.pointerType === "touch") return;
+    if (!el || e.pointerType === "touch" || isScrolling()) return;
     const r = el.getBoundingClientRect();
     const x = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
     const y = Math.min(Math.max((e.clientY - r.top) / r.height, 0), 1);
@@ -132,7 +133,15 @@ export default function HoloCard({
         </button>
 
         {/* verso: resumo + botão que leva à página da área */}
-        <div className={`${styles.face} ${styles.back}`} inert={!flipped}>
+        {/* clicar em qualquer ponto do verso (exceto no link) desvira o card */}
+        <div
+          className={`${styles.face} ${styles.back}`}
+          inert={!flipped}
+          onClick={(e) => {
+            if (e.target.closest("a")) return;
+            unflip();
+          }}
+        >
           <div className={styles.backTop}>
             <span className={styles.no}>{number}</span>
             <button type="button" className={styles.backBtn} onClick={unflip}>
