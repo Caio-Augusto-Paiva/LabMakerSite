@@ -1,0 +1,453 @@
+/* Trilho de crachás: crachás presos por fitas a um trilho de metal escovado. */
+
+.root {
+  --bw: 168px;
+  --bh: 276px;
+  position: relative;
+  width: 100%;
+  color: var(--white);
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  min-height: 570px;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+.ready .stage { opacity: 1; }
+
+/* ---------- Trilho ---------- */
+.railBar {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0 1px, rgba(0, 0, 0, 0.06) 1px 2px, transparent 2px 4px),
+    linear-gradient(180deg, #f6f8fb 0%, #c4cbd6 38%, #8b94a4 52%, #cfd5de 78%, #9aa3b2 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 3px rgba(15, 39, 128, 0.35),
+    0 10px 18px rgba(8, 20, 70, 0.45),
+    0 2px 0 rgba(15, 39, 128, 0.6);
+}
+.screw {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #aab2c0 55%, #6f7888);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.screw::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: #4b5363;
+  transform: rotate(-35deg);
+}
+.screwL { left: 10px; }
+.screwR { right: 10px; }
+
+/* ---------- Trilha dos crachás ---------- */
+.track {
+  position: absolute;
+  inset: 0;
+}
+
+.slot {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  --tone: var(--accent);
+  --tone-ink: var(--ink);
+  --strap-ink: var(--ink);
+  will-change: transform;
+}
+.tone_brand { --tone: var(--brand); --tone-ink: var(--white); --strap-ink: var(--white); }
+.tone_accent { --tone: var(--accent); --tone-ink: var(--ink); --strap-ink: var(--ink); }
+.tone_mint { --tone: #3ddc97; --tone-ink: var(--ink); --strap-ink: var(--ink); }
+.tone_ink { --tone: var(--ink); --tone-ink: var(--white); --strap-ink: var(--white); }
+.dragging, .slotOpen { z-index: 5; }
+
+/* Carrinho que corre pelo trilho */
+.carriage {
+  position: absolute;
+  left: -14px;
+  top: 4px;
+  width: 28px;
+  height: 26px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #eef1f6, #9ba4b3 60%, #c3cad5);
+  box-shadow: 0 3px 6px rgba(8, 20, 70, 0.5), inset 0 1px 0 #fff;
+}
+
+/* Cabo retrátil */
+.cord {
+  position: absolute;
+  left: -1px;
+  top: 28px;
+  width: 2px;
+  height: 34px;
+  background: repeating-linear-gradient(180deg, #e9eefb 0 3px, #9fb0dd 3px 4px);
+  border-radius: 1px;
+}
+
+/* Ponto de fixação do pêndulo: origem da rotação */
+.swing {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform: translate3d(0, 62px, 0);
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* Fita */
+.strap {
+  position: absolute;
+  left: -12px;
+  top: 0;
+  width: 24px;
+  height: 78px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  color: var(--strap-ink);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.22) 0 2px, transparent 2px calc(100% - 2px), rgba(0, 0, 0, 0.22) calc(100% - 2px)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 5px),
+    var(--tone);
+  box-shadow: 0 3px 6px rgba(8, 20, 70, 0.35);
+}
+.strap span {
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* Clipe metálico */
+.clip {
+  position: absolute;
+  left: -10px;
+  top: 70px;
+  width: 20px;
+  height: 30px;
+  border-radius: 4px 4px 9px 9px;
+  background: linear-gradient(90deg, #8e97a6, #f2f4f8 40%, #aab2c0 75%, #7d8696);
+  box-shadow: 0 3px 5px rgba(8, 20, 70, 0.45);
+  z-index: 2;
+  pointer-events: none;
+}
+.clip::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 6px;
+  height: 10px;
+  border-radius: 5px;
+  background: rgba(15, 39, 128, 0.55);
+}
+
+/* ---------- Crachá ---------- */
+.card {
+  position: absolute;
+  left: calc(var(--bw) / -2);
+  top: 86px;
+  width: var(--bw);
+  height: var(--bh);
+  perspective: 900px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  border-radius: 14px;
+  outline: none;
+}
+.card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+.dragging .card { cursor: grabbing; }
+
+.inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease);
+}
+/* Hover: vira levemente para a frente */
+@media (hover: hover) {
+  .card:hover .inner[data-flipped='false'] { transform: rotateX(-5deg) rotateY(-12deg) scale(1.04); }
+}
+.inner[data-flipped='true'] { transform: rotateY(180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 14px 26px rgba(8, 20, 70, 0.45), 0 3px 6px rgba(8, 20, 70, 0.3);
+}
+
+/* Frente */
+.front {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+}
+.band {
+  position: relative;
+  flex: none;
+  height: 46px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 10px 7px;
+  background: var(--tone);
+  color: var(--tone-ink);
+}
+.hole {
+  position: absolute;
+  left: 50%;
+  top: 9px;
+  width: 30px;
+  height: 7px;
+  margin-left: -15px;
+  border-radius: 4px;
+  background: var(--brand-night);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.bandText {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+}
+.frontBody {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px 0;
+  text-align: center;
+}
+/* Monograma */
+.mono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--tone);
+  color: var(--tone-ink);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+.name {
+  margin: 12px 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.role {
+  margin: 6px 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  line-height: 1.25;
+  color: var(--ink-soft);
+}
+.team {
+  margin: 8px 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px 10px;
+  border-top: 1px dashed rgba(13, 15, 20, 0.35);
+}
+.idTag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+/* Código de barras decorativo */
+.barcode {
+  flex: 1;
+  max-width: 70px;
+  height: 20px;
+  background:
+    repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(90deg, var(--paper) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 3px);
+  background-blend-mode: normal;
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 4px, #000 4px 5px, transparent 5px 8px);
+  mask: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 4px, #000 4px 5px, transparent 5px 8px);
+}
+
+/* Verso */
+.back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 12px 12px;
+  overflow-y: auto;
+  background: var(--brand-night);
+  color: var(--white);
+  scrollbar-width: thin;
+}
+.backTeam {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.backName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.bio {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+.chips, .links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.chips li {
+  padding: 2px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--white);
+}
+.links { margin-top: auto; gap: 4px 12px; }
+.links a {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.links a:hover { color: var(--white); }
+.links a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Legenda */
+.caption {
+  margin: 24px auto 0;
+  max-width: 60ch;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ---------- Carrossel (celulares) ---------- */
+.carousel .stage { min-height: 0; }
+.carousel .railBar { left: 0; right: 0; }
+.carousel .track {
+  position: relative;
+  inset: auto;
+  display: flex;
+  gap: 18px;
+  padding: 0 calc(50% - var(--bw) / 2) 24px;
+  height: calc(var(--bh) + 140px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.carousel .track::-webkit-scrollbar { display: none; }
+.carousel .slot {
+  position: relative;
+  flex: none;
+  width: var(--bw);
+  height: 100%;
+  scroll-snap-align: center;
+}
+.carousel .carriage,
+.carousel .cord,
+.carousel .swing { left: 50%; }
+.carousel .cord { margin-left: -1px; }
+.carousel .card { cursor: pointer; }
+.carousel .railBar { z-index: 6; }
+.carousel .slot { z-index: 3; }
+.carousel .dragging, .carousel .slotOpen { z-index: 3; }
+.carousel .track { padding-top: 0; }
+
+/* ---------- Movimento reduzido ---------- */
+.reduced .inner,
+.reduced .stage { transition: none; }
+.reduced .card { cursor: pointer; }
+@media (hover: hover) {
+  .reduced .card:hover .inner[data-flipped='false'] { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inner, .stage { transition: none; }
+  .card { cursor: pointer; }
+}
