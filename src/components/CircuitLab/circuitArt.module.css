@@ -1,0 +1,224 @@
+/* Circuito em planta técnica: desenho progressivo e corrente elétrica. */
+
+.circuit {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Fios: aparecem bem fracos; ao desenhar, traçam e ganham opacidade */
+.circuit [data-part="fios"] > * {
+  stroke: var(--tone-wire, rgba(255, 255, 255, 0.75));
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  opacity: 0.18;
+}
+
+/* Nós das junções */
+.circuit [data-part="nos"] > * {
+  fill: var(--tone-wire, rgba(255, 255, 255, 0.75));
+  stroke: none;
+  opacity: 0;
+  transition: opacity 0.4s ease 1s;
+}
+
+/* Grupos de componentes: invisíveis até serem desenhados */
+.circuit [data-class] > * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+.circuit [data-class="fontes"] > * {
+  stroke: var(--tone-fontes, #ffe08a);
+}
+
+.circuit [data-class="cargas"] > * {
+  stroke: var(--tone-cargas, #8fe3ff);
+}
+
+.circuit [data-class="controle"] > * {
+  stroke: var(--tone-controle, #b6f2c8);
+}
+
+/* Cotas, rótulos e registros */
+.circuit [data-part="cotas"] {
+  color: var(--tone-wire, rgba(255, 255, 255, 0.75));
+  opacity: 0;
+  transition: opacity 0.8s ease 3s;
+}
+
+.circuit [data-part="cotas"] path,
+.circuit [data-part="cotas"] circle,
+.circuit [data-part="cotas"] rect {
+  stroke: var(--tone-wire, rgba(255, 255, 255, 0.75));
+}
+
+.circuit [data-part="cotas"] text {
+  fill: var(--tone-wire, rgba(255, 255, 255, 0.75));
+}
+
+/* Corrente: tracejado curto correndo pelo laço (sem pathLength) */
+.circuit [data-part="corrente"] > * {
+  stroke: var(--tone-current, #ffffff);
+  stroke-width: 2.4px;
+  stroke-dasharray: 1 14;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 3px var(--tone-current, #ffffff));
+}
+
+/* Brilho e raios da lâmpada, rotação do motor */
+.circuit [data-part="brilho"] {
+  opacity: 0;
+}
+
+.circuit [data-part="luz"] > * {
+  stroke: #ffe9a0;
+  opacity: 0;
+}
+
+.circuit [data-part="rotor"] {
+  stroke: var(--tone-cargas, #8fe3ff);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Estado desenhado */
+.drawn [data-part="fios"] > * {
+  animation: draw 1.2s ease-in-out both;
+  opacity: 1;
+}
+
+.drawn [data-part="nos"] > * {
+  opacity: 1;
+}
+
+.drawn [data-class] > * {
+  opacity: 1;
+  stroke-dashoffset: 0;
+}
+
+.drawn [data-class="fontes"] > * {
+  animation: draw 1s ease-in-out 0.8s both;
+}
+
+.drawn [data-class="controle"] > * {
+  animation: draw 1s ease-in-out 1.4s both;
+}
+
+.drawn [data-class="cargas"] > * {
+  animation: draw 1.2s ease-in-out 2s both;
+}
+
+.drawn [data-part="cotas"] {
+  opacity: 1;
+}
+
+.drawn [data-part="corrente"] > * {
+  animation:
+    fadeIn 0.6s ease 3.4s both,
+    flow 1s linear 3.4s infinite;
+}
+
+.drawn [data-part="brilho"] {
+  animation:
+    glowIn 0.8s ease 3.4s both,
+    glowPulse 2.4s ease-in-out 4.2s infinite alternate;
+}
+
+.drawn [data-part="luz"] > * {
+  animation: fadeIn 0.6s ease 3.6s both;
+}
+
+.drawn [data-part="rotor"] {
+  animation:
+    fadeIn 0.6s ease 3.4s both,
+    spin 6s linear 3.4s infinite;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -15;
+  }
+}
+
+@keyframes glowIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes glowPulse {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawn [data-part="fios"] > *,
+  .drawn [data-class] > *,
+  .drawn [data-part="corrente"] > *,
+  .drawn [data-part="luz"] > *,
+  .drawn [data-part="brilho"],
+  .drawn [data-part="rotor"] {
+    animation: none;
+  }
+
+  .drawn [data-part="fios"] > *,
+  .drawn [data-class] > *,
+  .drawn [data-part="corrente"] > *,
+  .drawn [data-part="luz"] > *,
+  .drawn [data-part="rotor"] {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .drawn [data-part="brilho"] {
+    opacity: 0.8;
+  }
+
+  .circuit [data-part="cotas"],
+  .circuit [data-part="nos"] > * {
+    transition: none;
+  }
+}
