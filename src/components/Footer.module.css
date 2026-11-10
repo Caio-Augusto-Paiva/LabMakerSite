@@ -1,0 +1,89 @@
+.footer {
+  background-color: var(--brand);
+  padding-top: clamp(3rem, 7vw, 6rem);
+}
+
+.inner {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 3rem;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  align-self: start;
+}
+
+.logo {
+  width: 84px;
+  height: 84px;
+  border-radius: 14px;
+  flex: none;
+}
+
+.name {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+}
+
+.sub {
+  margin-top: 0.4rem;
+  opacity: 0.8;
+}
+
+.col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.col li a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line-light);
+  font-size: 0.95rem;
+  transition: padding 0.3s var(--ease), color 0.2s;
+}
+.col li a:hover {
+  padding-left: 0.5rem;
+  color: var(--white);
+}
+.col li a span {
+  color: var(--white);
+  font-size: 0.65rem;
+}
+
+.head {
+  margin-bottom: 0.8rem;
+  opacity: 0.75;
+}
+
+.soon {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem 2rem;
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+  padding-block: 1.4rem;
+  border-top: 1px solid var(--line-light);
+  font-size: 0.64rem;
+  opacity: 0.85;
+}

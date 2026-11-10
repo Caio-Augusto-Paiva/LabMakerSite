@@ -1,0 +1,65 @@
+.rail {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .rail {
+    position: fixed;
+    z-index: 40;
+    left: 6px;
+    top: 50%;
+    translate: 0 -50%;
+    display: block;
+    padding: 0.5rem 0.15rem;
+    border-radius: 999px;
+    background: rgba(13, 15, 20, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--white);
+  }
+
+  .rail ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .rail a {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.3rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    transition: opacity 0.25s, background 0.25s;
+  }
+  .rail a:hover {
+    opacity: 1;
+  }
+  .rail a[aria-current="true"] {
+    opacity: 1;
+    background: var(--accent);
+    color: var(--ink);
+  }
+
+  .label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s var(--ease), opacity 0.3s;
+  }
+  .rail a[aria-current="true"] .label,
+  .rail a:hover .label {
+    max-height: 7rem;
+    opacity: 1;
+  }
+}

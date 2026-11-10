@@ -1,0 +1,12 @@
+.wrap {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.text {
+  display: inline-block;
+  white-space: nowrap;
+  /* tamanho provisório até o JS medir (evita salto grande) */
+  font-size: 18vw;
+}
