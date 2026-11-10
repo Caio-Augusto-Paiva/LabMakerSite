@@ -1,0 +1,524 @@
+/* ---------- Dimensões (1 unidade = 1px) ---------- */
+.root {
+  --belt-len: 1100px; /* esteira 1100 × 120 × 28 */
+  --belt-dep: 120px;
+  --belt-h: 28px;
+  --station-gap: 220px; /* distância entre estações (centros em -440, -220, 0, 220, 440) */
+  --cycle: 26s; /* tempo de uma peça atravessar a esteira */
+  --travel: 510px; /* peça vai de -510 a +510 em X */
+  --shade-front: rgba(0, 6, 40, 0.16);
+  --shade-back: rgba(0, 6, 40, 0.3);
+  --shade-side: rgba(0, 6, 40, 0.34);
+
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  color: var(--white);
+  background: var(--brand-night);
+  border-radius: calc(var(--radius) + 6px);
+  font-family: var(--font-ui);
+}
+
+/* ---------- Barra de controles ---------- */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+.cams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ctl {
+  min-height: 40px;
+  padding: 0 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid var(--line-light);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.ctl:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.ctl[aria-pressed='true'] {
+  background: var(--white);
+  color: var(--brand-night);
+  border-color: var(--white);
+}
+.pause[data-paused='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--white);
+}
+.ctl:focus-visible,
+.item:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Layout ---------- */
+.layout {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 68fr) minmax(0, 32fr);
+  }
+}
+
+.stage {
+  position: relative;
+  height: clamp(380px, 52vw, 620px);
+  min-height: 340px;
+  overflow: hidden;
+  perspective: 1600px;
+  border-radius: var(--radius);
+  container-type: inline-size;
+}
+
+/* ---------- Primitivas 3D ---------- */
+/* Grupo de tamanho zero na origem do pai; filhos usam translate3d. */
+.g {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+/* Câmera: translate -> escala (zoom × ajuste ao tamanho do palco) -> inclina -> gira */
+.world {
+  --fit: 0.4;
+  transform: translate(var(--tx), var(--ty)) scale(calc(var(--zoom) * var(--fit))) rotateX(var(--rx))
+    rotateZ(var(--rz));
+  transition: transform 900ms var(--ease);
+  will-change: transform;
+  left: 50%;
+  top: 50%;
+}
+/* --fit compensa a largura do palco (calibrado para ~800px = 1) */
+@container (max-width: 340px) {
+  .world { --fit: 0.32; }
+}
+@container (min-width: 420px) {
+  .world { --fit: 0.52; }
+}
+@container (min-width: 520px) {
+  .world { --fit: 0.66; }
+}
+@container (min-width: 640px) {
+  .world { --fit: 0.82; }
+}
+@container (min-width: 760px) {
+  .world { --fit: 1; }
+}
+@container (min-width: 900px) {
+  .world { --fit: 1.15; }
+}
+
+.deck {
+  transform: translateZ(var(--belt-h)); /* Z=0 passa a ser o topo da esteira */
+}
+
+.shadow {
+  position: absolute;
+  left: -620px;
+  top: -120px;
+  width: 1240px;
+  height: 240px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.42), transparent 70%);
+  transform: translateZ(0.5px);
+}
+
+/* Caixa: posição da base + 5 faces */
+.box {
+  transform: translate3d(var(--x), var(--y), var(--z));
+  --fill: rgba(255, 255, 255, 0.1);
+  --edge: #fff;
+}
+.f {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1.5px solid var(--edge);
+  background: linear-gradient(var(--shade), var(--shade)), var(--fill);
+}
+.top {
+  --shade: transparent;
+  left: calc(var(--w) / -2);
+  top: calc(var(--d) / -2);
+  width: var(--w);
+  height: var(--d);
+  transform: translateZ(var(--h));
+}
+/* Paredes: levantadas girando em torno da aresta de baixo */
+.front {
+  --shade: var(--shade-front);
+  left: calc(var(--w) / -2);
+  top: calc(var(--d) / 2 - var(--h));
+  width: var(--w);
+  height: var(--h);
+  transform-origin: 50% 100%;
+  transform: rotateX(-90deg);
+}
+.back {
+  --shade: var(--shade-back);
+  left: calc(var(--w) / -2);
+  top: calc(var(--d) / -2 - var(--h));
+  width: var(--w);
+  height: var(--h);
+  transform-origin: 50% 100%;
+  transform: rotateX(-90deg);
+}
+.right {
+  --shade: var(--shade-side);
+  left: calc(var(--w) / 2 - var(--h));
+  top: calc(var(--d) / -2);
+  width: var(--h);
+  height: var(--d);
+  transform-origin: 100% 50%;
+  transform: rotateY(90deg);
+}
+.left {
+  --shade: var(--shade-side);
+  left: calc(var(--w) / -2 - var(--h));
+  top: calc(var(--d) / -2);
+  width: var(--h);
+  height: var(--d);
+  transform-origin: 100% 50%;
+  transform: rotateY(90deg);
+}
+
+/* Variantes de material */
+.glass { --fill: rgba(255, 255, 255, 0.1); --edge: #fff; }
+.post { --fill: rgba(28, 63, 180, 0.95); --edge: rgba(255, 255, 255, 0.75); }
+.screen { --fill: rgba(8, 18, 60, 0.92); --edge: var(--accent); }
+.sheet { --fill: rgba(255, 255, 255, 0.28); --edge: #fff; }
+.beam { --fill: rgba(255, 90, 31, 0.28); --edge: var(--accent); }
+.nozzle { --fill: var(--accent); --edge: rgba(255, 255, 255, 0.7); }
+.noEnds .left,
+.noEnds .right { display: none; }
+
+/* Esteira */
+.belt { --fill: #0a1c66; --edge: rgba(255, 255, 255, 0.35); }
+.belt .top {
+  border-color: rgba(255, 255, 255, 0.5);
+  background:
+    linear-gradient(90deg, #fff 50%, transparent 50%) 0 50% / 44px 3px repeat-x,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.7) 50%, transparent 50%) 0 10% / 22px 2px repeat-x,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.7) 50%, transparent 50%) 0 90% / 22px 2px repeat-x,
+    var(--brand-night);
+  animation: beltMove 1s linear infinite;
+  will-change: background-position;
+}
+@keyframes beltMove {
+  to { background-position: 44px 50%, 22px 10%, 22px 90%, 0 0; }
+}
+
+/* ---------- Estações ---------- */
+.station {
+  transform: translate3d(calc(var(--k) * var(--station-gap)), 0, 0);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.lift {
+  transition: transform 0.4s var(--ease);
+}
+.on .lift {
+  transform: translateZ(10px);
+}
+.on .box {
+  --edge: var(--accent);
+}
+.on .f {
+  box-shadow: 0 0 14px rgba(255, 90, 31, 0.55);
+}
+
+/* Etiqueta no chão, ao lado da esteira (z = -27 relativo ao topo da esteira) */
+.tag {
+  position: absolute;
+  left: -75px;
+  top: -9px;
+  width: 150px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  transform: translate3d(0, 104px, -27px);
+}
+.on .tag {
+  background: var(--accent);
+}
+
+/* 01: holograma girando sobre a mesa */
+.holo { transform: translate3d(0, -88px, 30px); }
+.spin { animation: spinZ 9s linear infinite; will-change: transform; }
+@keyframes spinZ {
+  to { transform: rotateZ(360deg); }
+}
+
+/* 02: lâmina sobe e desce (a peça tem 40 de altura) */
+.blade { animation: bladeZ 3.2s ease-in-out infinite alternate; will-change: transform; }
+@keyframes bladeZ {
+  from { transform: translateZ(0); }
+  to { transform: translateZ(84px); }
+}
+
+/* 03: trilho anda em Y, cabeçote em X (períodos diferentes = movimento de varredura) */
+.rail { animation: railY 4.1s ease-in-out infinite alternate; will-change: transform; }
+.head { animation: headX 1.7s ease-in-out infinite alternate; will-change: transform; }
+@keyframes railY {
+  from { transform: translateY(-26px); }
+  to { transform: translateY(26px); }
+}
+@keyframes headX {
+  from { transform: translateX(-38px); }
+  to { transform: translateX(38px); }
+}
+
+/* 04: braço oscila sobre a peça; ferramenta sobe e desce */
+.armPos { transform: translateY(-80px); }
+.swing { animation: swingZ 3.4s ease-in-out infinite alternate; will-change: transform; }
+.tip { animation: tipZ 0.8s ease-in-out infinite alternate; will-change: transform; }
+@keyframes swingZ {
+  from { transform: rotateZ(-22deg); }
+  to { transform: rotateZ(22deg); }
+}
+@keyframes tipZ {
+  from { transform: translateZ(0); }
+  to { transform: translateZ(-4px); }
+}
+
+/* 05: feixe varre a peça ao longo de X */
+.scan { animation: scanX 2.6s ease-in-out infinite alternate; will-change: transform; }
+@keyframes scanX {
+  from { transform: translateX(-44px); }
+  to { transform: translateX(44px); }
+}
+
+.pack { --fill: #fff; --edge: #cfd8f3; }
+
+/* ---------- Peças ---------- */
+/* Todas as camadas e a viagem usam o MESMO ciclo e delay, então os
+   percentuais coincidem com as estações: x% = (posição + 500) / 1000
+   (est.1 ≈ 6%, est.2 ≈ 28%, est.3 ≈ 50%, est.4 ≈ 72%, est.5 ≈ 94%). */
+.piece {
+  --delay: calc(var(--cycle) * var(--i) / -5);
+  animation: travel var(--cycle) linear var(--delay) infinite;
+  will-change: transform;
+}
+@keyframes travel {
+  from { transform: translateX(calc(var(--travel) * -1)); }
+  to { transform: translateX(var(--travel)); }
+}
+.piece .f { opacity: 0; }
+
+/* Opacidade é animada nas faces (opacity < 1 num grupo 3D achataria o cubo). */
+.ghost .f { animation: ghostOp var(--cycle) linear var(--delay) infinite both; }
+.slice .f { animation: sliceOp var(--cycle) linear var(--delay) infinite both; }
+.solid .f { animation: solidOp var(--cycle) linear var(--delay) infinite both; }
+.gloss .f { animation: glossOp var(--cycle) linear var(--delay) infinite both; }
+.piece .pack .f { animation: packOp var(--cycle) linear var(--delay) infinite both; }
+
+.solid .inner { animation: grow var(--cycle) linear var(--delay) infinite both; transform-origin: 0 0 0; will-change: transform; }
+.piece .pack .inner { animation: drop var(--cycle) linear var(--delay) infinite both; will-change: transform; }
+
+/* modelo digital: wireframe branco */
+.ghost { --fill: rgba(255, 255, 255, 0.06); --edge: #fff; }
+/* fatiada: listras horizontais nas laterais */
+.slice { --fill: rgba(255, 255, 255, 0.14); --edge: #fff; }
+.slice .front,
+.slice .back,
+.slice .left,
+.slice .right {
+  background:
+    linear-gradient(var(--shade), var(--shade)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.7) 0 1.5px, transparent 1.5px 5px),
+    var(--fill);
+}
+/* impressa: laranja de acento */
+.solid { --fill: var(--accent); --edge: rgba(255, 255, 255, 0.35); }
+/* pós-processada: mais clara, lisa e com brilho */
+.gloss { --fill: #ffb08a; --edge: rgba(255, 255, 255, 0.9); }
+.gloss .top {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 60%), #ffb08a;
+}
+/* entregue: caixa branca com selo de check */
+.piece .pack .top::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--white);
+  font: 700 15px/24px var(--font-ui);
+  text-align: center;
+}
+
+@keyframes ghostOp {
+  0% { opacity: 0; }
+  3% { opacity: 1; }
+  20% { opacity: 1; }
+  24%, 100% { opacity: 0; }
+}
+@keyframes sliceOp {
+  0%, 20% { opacity: 0; }
+  24%, 36% { opacity: 1; }
+  40%, 100% { opacity: 0; }
+}
+@keyframes solidOp {
+  0%, 38% { opacity: 0; }
+  40%, 66% { opacity: 1; }
+  70%, 100% { opacity: 0; }
+}
+@keyframes grow {
+  0%, 40% { transform: scale3d(1, 1, 0.02); }
+  57%, 100% { transform: scale3d(1, 1, 1); }
+}
+@keyframes glossOp {
+  0%, 66% { opacity: 0; }
+  70%, 84% { opacity: 1; }
+  88%, 100% { opacity: 0; }
+}
+@keyframes packOp {
+  0%, 84% { opacity: 0; }
+  85%, 96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes drop {
+  0%, 82% { transform: translateZ(50px); }
+  88%, 100% { transform: translateZ(0); }
+}
+
+/* ---------- Pausar ---------- */
+.paused,
+.paused * {
+  animation-play-state: paused !important;
+}
+
+/* ---------- Coluna direita ---------- */
+.side {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 14px;
+  color: var(--white);
+  background-color: rgba(15, 39, 128, 0.55);
+  border-radius: var(--radius);
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  text-align: left;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid var(--line-light);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.item:hover { background: rgba(255, 255, 255, 0.14); }
+.item[aria-current='step'] {
+  border-color: var(--accent);
+  background: rgba(255, 90, 31, 0.18);
+}
+.itemN {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+}
+.itemT {
+  font-family: var(--font-ui);
+  font-size: 15px;
+}
+
+.detail {
+  padding-top: 12px;
+  border-top: 1.5px solid var(--line-light);
+}
+.bigN {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 7vw, 88px);
+  line-height: 0.95;
+  color: var(--accent-text);
+}
+.dTitle {
+  margin: 6px 0 8px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.dText {
+  margin: 0 0 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--line-light);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Movimento reduzido: tudo parado, peças já "prontas" em cada estação ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .world,
+  .lift { transition: none; }
+  .belt .top,
+  .spin, .blade, .rail, .head, .swing, .tip, .scan,
+  .piece, .piece .f, .solid .inner, .piece .pack .inner {
+    animation: none;
+  }
+  .piece { transform: translateX(calc((var(--i) - 2) * var(--station-gap))); }
+  .piece[data-i='0'] .ghost .f,
+  .piece[data-i='1'] .slice .f,
+  .piece[data-i='2'] .solid .f,
+  .piece[data-i='3'] .gloss .f,
+  .piece[data-i='4'] .pack .f { opacity: 1; }
+  .piece .solid .inner,
+  .piece .pack .inner { transform: none; }
+}
