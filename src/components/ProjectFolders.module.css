@@ -1,0 +1,252 @@
+/* ==========================================================================
+   Pastas de vidro — montam ao rolar, inclinam ao ponteiro, abrem em leque.
+   Geometria: o palco é 5:4. W = largura da pasta, H = 0.8W.
+   ========================================================================== */
+
+.grid {
+  /* tom "dark": vidro sobre fundo azul/blueprint */
+  --glass: linear-gradient(150deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.08));
+  --glass-edge: rgba(255, 255, 255, 0.55);
+  --front: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(15, 39, 128, 0.62) 72%);
+  --front-edge: rgba(255, 255, 255, 0.6);
+  --shadow: rgba(5, 15, 70, 0.55);
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 1rem clamp(1.4rem, 3vw, 2.4rem);
+}
+
+.paper {
+  /* tom "paper": vidro azul sobre papel */
+  --glass: linear-gradient(150deg, rgba(41, 96, 238, 0.34), rgba(41, 96, 238, 0.12));
+  --glass-edge: rgba(41, 96, 238, 0.7);
+  --front: linear-gradient(160deg, rgba(41, 96, 238, 0.92), rgba(28, 63, 180, 0.82));
+  --front-edge: rgba(255, 255, 255, 0.7);
+  --shadow: rgba(15, 39, 128, 0.5);
+}
+
+.folder {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  aspect-ratio: 5 / 4;
+  margin-top: clamp(3.2rem, 6vw, 4.6rem); /* espaço para o leque subir */
+  perspective: 1100px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  translate: 0 0;
+  opacity: 1;
+  transition:
+    transform 0.25s var(--ease),
+    translate 0.9s var(--ease) calc(var(--i) * 90ms),
+    opacity 0.9s var(--ease) calc(var(--i) * 90ms);
+}
+
+/* antes de entrar na tela: pasta "desmontada" */
+.folder[data-in="false"] .stage {
+  translate: 0 46px;
+  opacity: 0;
+}
+
+/* corpo da pasta (aba chanfrada + traseira) ------------------------------- */
+
+.tab,
+.back {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 37% 0, 42% 13%, 98% 13%, 100% 16%, 100% 100%, 0 100%);
+  border-radius: 16px;
+}
+.tab {
+  inset: -1.5px; /* borda de 1.5px: camada maior e mais clara por trás do vidro */
+  background: var(--glass-edge);
+}
+.back {
+  background: var(--glass);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  box-shadow: 0 30px 40px -24px var(--shadow);
+}
+
+/* frente (a "capa" que abre) ---------------------------------------------- */
+
+.front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 68%;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  justify-items: start;
+  gap: 0.3rem;
+  padding: 0.9rem 1.1rem 0.8rem;
+  text-align: left;
+  color: var(--white);
+  background: var(--front);
+  border: 1.5px solid var(--front-edge);
+  border-radius: 16px;
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.35) inset, 0 20px 30px -16px var(--shadow);
+  transform-origin: 50% 100%;
+  transform: translateZ(18px) rotateX(0deg);
+  transition: transform 0.6s var(--ease);
+  cursor: pointer;
+}
+
+.no {
+  color: var(--white);
+}
+.title {
+  align-self: end;
+  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  line-height: 1;
+}
+.meta {
+  font-size: 0.68rem;
+  opacity: 0.92;
+}
+.hint {
+  position: absolute;
+  right: 1rem;
+  top: 0.9rem;
+  font-size: 0.68rem;
+  opacity: 0.9;
+}
+
+/* arquivos (imagens do projeto) ------------------------------------------- */
+
+.files {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.file {
+  --k: 0;
+  --n: 3;
+  --r: 0deg;
+  position: absolute;
+  left: 14%;
+  width: 72%;
+  bottom: 7%;
+  aspect-ratio: 4 / 3;
+  padding: 6px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 0 10px 18px -8px rgba(5, 15, 70, 0.6);
+  transform-origin: 50% 100%;
+  transform: translate3d(0, calc(var(--k) * -3%), 6px) rotate(0deg);
+  transition: transform 0.7s var(--ease) calc(var(--k) * 50ms);
+  pointer-events: auto;
+  cursor: pointer;
+  overflow: hidden;
+}
+.file:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.fileImg {
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* aberta: hover (só mouse), foco dentro, ou fixada por clique */
+.folder[data-open="true"] .file,
+.folder:focus-within .file {
+  transform: translate3d(calc((var(--k) - (var(--n) - 1) / 2) * 27%), -44%, 6px) rotate(var(--r));
+}
+.folder[data-open="true"] .front,
+.folder:focus-within .front {
+  transform: translateZ(18px) rotateX(-24deg);
+}
+@media (hover: hover) {
+  .folder:hover .file {
+    transform: translate3d(calc((var(--k) - (var(--n) - 1) / 2) * 27%), -44%, 6px) rotate(var(--r));
+  }
+  .folder:hover .front {
+    transform: translateZ(18px) rotateX(-24deg);
+  }
+}
+
+.front:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* visualizador ------------------------------------------------------------- */
+
+.viewer {
+  width: min(92vw, 900px);
+  max-height: 92vh;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  background: var(--brand-night);
+  color: var(--white);
+  overflow: auto; /* celular deitado: o rodapé com a navegação não fica cortado */
+}
+.viewer::backdrop {
+  background: rgba(5, 15, 70, 0.72);
+  backdrop-filter: blur(6px);
+}
+.viewerBody {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 1.2rem 1.2rem;
+}
+.viewerHead,
+.viewerFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.viewerStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 68vh;
+  margin-inline: auto;
+}
+.viewerImg {
+  object-fit: contain;
+}
+.viewerPh {
+  height: 100%;
+}
+.vNav {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+.vBtn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.vBtn:hover {
+  background: var(--white);
+  color: var(--brand-night);
+}
