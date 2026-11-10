@@ -1,4 +1,4 @@
-/* Laboratório de Anatomia: cena isométrica hairline sobre fundo blueprint */
+/* SortLab: jogo de classificação em cena isométrica hairline sobre fundo blueprint */
 
 .root {
   position: relative;
@@ -493,3 +493,9 @@
 .pickerBtn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.14); }
 .pickerBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 .pickerBtn:focus-visible { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+
+/* rótulos de designação (BT1, R1...) são ilegíveis nos cartões e slots pequenos: ficam só no esquema da vitória */
+.cardArt text,
+.slotArt text {
+  display: none;
+}

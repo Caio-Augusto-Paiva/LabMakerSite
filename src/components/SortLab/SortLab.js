@@ -104,7 +104,7 @@ function reducer(state, action) {
           kind: 'ok',
           text: won
             ? `Laboratório concluído! ${organ.name}: ${organ.fact}`
-            : `${organ.name}: ${organ.fact}${locked ? ` Painel ${system.short.toLowerCase()} travado.` : ''}`,
+            : `${organ.name}: ${organ.fact}${locked ? ` Painel "${system.name}" travado.` : ''}`,
         },
       };
     }
@@ -263,7 +263,7 @@ export default function SortLab({ groups: systems = [], items: organs = [], art 
         if (!sys) return;
         e.preventDefault();
         if ((state.placed[sys.id] || []).length < SLOTS) place(state.selected, sys.id);
-        else dispatch({ type: 'NOTICE', text: `${sys.name} já está travado. Escolha outro painel.` });
+        else dispatch({ type: 'NOTICE', text: `O painel "${sys.name}" já está travado. Escolha outro.` });
       }
     };
     window.addEventListener('keydown', onKey);
@@ -392,7 +392,7 @@ export default function SortLab({ groups: systems = [], items: organs = [], art 
 
   const onPanelActivate = (sys) => {
     if ((state.placed[sys.id] || []).length >= SLOTS) {
-      dispatch({ type: 'NOTICE', text: `${sys.name} já está travado. Escolha outro painel.` });
+      dispatch({ type: 'NOTICE', text: `O painel "${sys.name}" já está travado. Escolha outro.` });
       return;
     }
     if (state.selected) place(state.selected, sys.id);
@@ -544,7 +544,7 @@ export default function SortLab({ groups: systems = [], items: organs = [], art 
       {/* 3) Bandeja */}
       <div className={styles.tray}>
         <div className={`mono ${styles.trayHead}`}>
-          <span>BANDEJA · {tray.length} {tray.length === 1 ? 'peça' : 'peças'}</span>
+          <span>BANDEJA · {tray.length} {tray.length === 1 ? 'item' : 'itens'}</span>
           <span className={styles.hint}>Arraste · ou selecione e escolha a classe</span>
         </div>
         <div className={styles.cards}>
