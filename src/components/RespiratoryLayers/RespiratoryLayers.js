@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { isScrolling } from '@/lib/scrollState';
 import styles from './RespiratoryLayers.module.css';
 import { LAYERS } from './respiratoryArt';
 
@@ -48,7 +49,7 @@ export default function RespiratoryLayers({ className = '' }) {
     if (!el) return undefined;
     const update = () => {
       const r = el.getBoundingClientRect();
-      if (r.width && r.height) setScale(Math.max(0.3, Math.min(r.width / 540, r.height / 500)));
+      if (r.width && r.height) setScale(Math.max(0.3, Math.min(r.width / 440, r.height / 430)));
     };
     update();
     if (typeof ResizeObserver === 'undefined') {
@@ -85,7 +86,7 @@ export default function RespiratoryLayers({ className = '' }) {
   };
 
   const onPointerMove = (e) => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch' || isScrolling()) return;
     clearTimeout(closeTimer.current);
     const r = stageRef.current.getBoundingClientRect();
     if (!r.height || !r.width) return;
