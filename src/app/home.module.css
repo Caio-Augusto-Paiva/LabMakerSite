@@ -1,0 +1,635 @@
+/* ==========================================================================
+   LANDING — baseada na referência 3 (YU.DESIGN):
+   papel + palavra gigante azul + placa de acrílico + etiquetas + blueprint
+   ========================================================================== */
+
+/* ---------- hero ---------- */
+
+.hero {
+  background: var(--paper);
+  padding-top: 98px;
+  padding-bottom: clamp(2.5rem, 6vw, 5rem);
+  overflow: hidden;
+}
+
+.heroMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid var(--line-ink);
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+}
+
+.stage {
+  position: relative;
+  margin-top: clamp(0.6rem, 2vw, 1.6rem);
+  padding-bottom: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.mega {
+  font-size: clamp(3.6rem, 22vw, 23rem);
+  line-height: 0.8;
+  white-space: nowrap;
+  text-align: center;
+  letter-spacing: -0.005em;
+  color: var(--brand);
+  /* "tinta" com textura de impressão */
+  background-image: var(--grain-ink), linear-gradient(var(--brand), var(--brand));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  user-select: none;
+}
+
+.card {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 54%;
+  width: min(580px, 58%);
+  transform: translate(-50%, -50%);
+  padding: 1.1rem 1.4rem 1.2rem;
+  animation: rise 0.9s var(--ease) 0.15s both;
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.6rem 0.8rem;
+  color: var(--ink-soft);
+  font-size: 0.6rem;
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.avatar {
+  width: clamp(72px, 9vw, 104px);
+  height: auto;
+  aspect-ratio: 1;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--accent);
+}
+
+.cardTitle {
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  line-height: 0.96;
+  color: var(--ink);
+}
+
+.cardSub {
+  margin-top: 0.6rem;
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+}
+
+.cardFoot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin-top: 0.9rem;
+  padding: 0.8rem 0.6rem 0;
+  border-top: 1px solid rgba(13, 15, 20, 0.18);
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+}
+
+.tag {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: 0.25rem;
+  width: 208px;
+  padding: 1rem 1.15rem 1.05rem;
+  border-radius: 5px;
+  color: var(--white);
+  box-shadow: 0 14px 28px -12px rgba(13, 15, 20, 0.5);
+  animation: rise 0.9s var(--ease) 0.35s both;
+}
+.tag strong {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 1.12rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.tagList {
+  font-size: 0.68rem;
+  opacity: 0.92;
+  line-height: 1.5;
+}
+.tagOrange {
+  left: 7%;
+  top: 26%;
+  background: var(--accent);
+  color: var(--ink);
+  transform: rotate(-4deg);
+}
+.tagBlue {
+  right: 9%;
+  top: 3%;
+  background: var(--brand);
+  transform: rotate(2.5deg);
+}
+
+.chip {
+  position: absolute;
+  z-index: 3;
+  right: 13%;
+  bottom: 0;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.85rem 3.2rem 0.85rem 1.1rem;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--white);
+  box-shadow: 0 14px 28px -14px rgba(13, 15, 20, 0.7);
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+  animation: rise 0.9s var(--ease) 0.5s both;
+}
+.chip :global(.mono) {
+  font-size: 0.68rem;
+  opacity: 0.7;
+}
+.chip strong {
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.chipArrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--accent);
+  font-size: 1.3rem;
+  transition: translate 0.25s var(--ease);
+}
+.chip:hover {
+  background: var(--brand);
+  transform: translateY(-3px);
+}
+.chip:hover .chipArrow {
+  translate: 3px -35%;
+  color: var(--white);
+}
+
+.barcode {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  top: 56%;
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  padding: 0.55rem 0.7rem 0.4rem;
+  background: var(--white);
+  border-radius: 4px;
+  box-shadow: 0 8px 20px -10px rgba(13, 15, 20, 0.4);
+  font-size: 0.68rem;
+}
+.barcode i {
+  display: block;
+  width: 70px;
+  height: 34px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 2px,
+    transparent 2px 4px,
+    var(--ink) 4px 5px,
+    transparent 5px 8px,
+    var(--ink) 8px 11px,
+    transparent 11px 12px
+  );
+}
+
+.scope {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 4rem;
+  align-items: end;
+  margin-top: clamp(1rem, 3vw, 2.5rem);
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line-ink);
+}
+
+.scopeTitle {
+  font-size: clamp(3rem, 7.5vw, 6.5rem);
+  color: var(--ink);
+}
+.scopeTitle span {
+  color: var(--accent);
+}
+
+.scopeText {
+  max-width: 44ch;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+@media (min-width: 900px) {
+  .scope {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .stage {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .card,
+  .tag,
+  .chip,
+  .barcode {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+  }
+  .tag {
+    width: auto;
+    max-width: 320px;
+  }
+  .tagOrange {
+    transform: rotate(-1.5deg);
+  }
+  .tagBlue {
+    transform: rotate(1.5deg);
+    justify-self: end;
+  }
+  .barcode {
+    display: none;
+  }
+  .chip {
+    width: auto;
+    justify-self: start;
+  }
+  .cardFoot {
+    display: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ---------- títulos / numeração de seção ---------- */
+
+.h2 {
+  font-size: clamp(2.6rem, 6.6vw, 6rem);
+  line-height: 1.02; /* folga para acentos em caixa alta */
+  color: var(--ink);
+}
+.h2Light {
+  color: var(--white);
+}
+
+.secNo,
+.secNoLight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--brand);
+}
+.secNo::after,
+.secNoLight::after {
+  content: "";
+  width: 3rem;
+  height: 1px;
+  background: currentColor;
+}
+.secNoLight {
+  color: var(--white);
+}
+
+/* ---------- 01 — o projeto ---------- */
+
+.intro {
+  background: var(--paper);
+  padding-block: clamp(4rem, 9vw, 8rem);
+}
+
+.introGrid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+
+.introHead {
+  display: grid;
+  gap: 1.2rem;
+  align-content: start;
+}
+
+.introText {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  max-width: 46ch;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.note {
+  margin-top: 0.4rem;
+  color: var(--accent-ink);
+  font-size: 0.6rem;
+}
+
+.collage {
+  position: relative;
+  padding-bottom: 16%;
+}
+
+.frame {
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
+  border-color: #fff;
+  box-shadow: 0 30px 50px -28px rgba(15, 39, 128, 0.5), 0 0 0 1px rgba(13, 15, 20, 0.06);
+}
+.frameMain {
+  width: 88%;
+  padding: 14px;
+}
+.framePhoneA {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 25%;
+  padding: 7px;
+  border-radius: 14px;
+}
+.framePhoneB {
+  position: absolute;
+  right: 23%;
+  bottom: -6%;
+  width: 22%;
+  padding: 7px;
+  border-radius: 14px;
+}
+
+@media (min-width: 1100px) {
+  .introGrid {
+    grid-template-columns: 1.05fr 0.85fr 1.3fr;
+    gap: 3rem;
+    align-items: center;
+  }
+}
+
+/* ---------- 02 — áreas (blueprint) ---------- */
+
+.areas {
+  padding-block: clamp(4rem, 9vw, 8rem);
+}
+
+.areasHead {
+  display: grid;
+  gap: 1.4rem;
+  max-width: 60rem;
+}
+
+.areasLead {
+  max-width: 48ch;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.diagram {
+  position: relative;
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 2rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    "a1 core a2"
+    "a3 a4 a5";
+  grid-auto-rows: 1fr;
+}
+
+.wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: visible;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 6;
+  animation: flow 1.2s linear infinite;
+  pointer-events: none;
+}
+.wires path {
+  vector-effect: non-scaling-stroke;
+}
+@keyframes flow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.junction {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border: 2px solid #fff;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.6rem 1.5rem 1.4rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+    rgba(15, 39, 128, 0.5);
+}
+
+.nodeTag {
+  display: flex;
+  justify-content: space-between;
+  color: var(--accent-text);
+  font-size: 0.68rem;
+}
+.nodeTag span:last-child {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.nodeName {
+  min-height: 2em;
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  line-height: 0.98;
+  color: var(--white);
+}
+
+.nodeCard {
+  width: min(100%, 250px);
+  margin-inline: auto;
+  padding-block: 0.5rem;
+}
+
+.nodeText {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.nodeLink {
+  margin-top: auto;
+  align-self: flex-start;
+  padding-bottom: 0.2rem;
+  border-bottom: 1.5px solid var(--accent);
+  color: var(--white);
+  font-size: 0.68rem;
+  transition: color 0.2s, padding 0.3s var(--ease);
+}
+.nodeLink:hover {
+  color: var(--accent-text);
+  padding-right: 0.5rem;
+}
+
+.core {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, rgba(255, 90, 31, 0.22), rgba(255, 255, 255, 0.04)),
+    rgba(15, 39, 128, 0.72);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.core .nodeTag {
+  width: 100%;
+  justify-content: center;
+}
+.coreLogo {
+  width: 96px;
+  height: 96px;
+  border-radius: 18px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+.coreName {
+  font-size: clamp(2.6rem, 4.4vw, 3.8rem);
+}
+.coreData {
+  width: 100%;
+  margin: 0.4rem 0 0;
+  font-size: 0.66rem;
+}
+.coreData div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--line-light);
+}
+.coreData dt {
+  opacity: 0.7;
+}
+.coreData dd {
+  margin: 0;
+  color: var(--white);
+}
+.live {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(255, 90, 31, 0.7);
+  animation: pulse 1.8s ease-out infinite;
+}
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 9px rgba(255, 90, 31, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 90, 31, 0);
+  }
+}
+
+@media (max-width: 1000px) {
+  .diagram {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "core core"
+      "a1 a2"
+      "a3 a4"
+      "a5 a5";
+    grid-auto-rows: auto;
+  }
+  .wires,
+  .junction {
+    display: none;
+  }
+  .node[data-slot="a5"] {
+    width: calc(50% - 0.5rem);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .diagram {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "core"
+      "a1"
+      "a2"
+      "a3"
+      "a4"
+      "a5";
+  }
+  .node[data-slot="a5"] {
+    width: auto;
+  }
+}
+
+/* ---------- 03 — destaques ---------- */
+
+.featured {
+  background: var(--paper);
+  padding-block: clamp(4rem, 9vw, 8rem);
+}
+
+.featHead {
+  display: grid;
+  gap: 1.2rem;
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+.featLead {
+  max-width: 48ch;
+  color: var(--ink-soft);
+}
+
+/* marca-texto laranja, como no "UN NUOVO LOOK." da referência */
+.mark {
+  background: linear-gradient(transparent 64%, var(--accent) 64% 90%, transparent 90%);
+  padding-inline: 0.06em;
+}
