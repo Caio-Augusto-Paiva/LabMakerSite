@@ -1,0 +1,367 @@
+.root {
+  --tone: #8fe3ff;
+  --gap: 6px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  color: var(--white);
+}
+
+.open {
+  --gap: 80px;
+}
+
+.stage {
+  position: relative;
+  height: clamp(380px, 60vw, 640px);
+  perspective: 1600px;
+  touch-action: pan-y;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.scene {
+  --rz: 0deg;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 320px;
+  height: 400px;
+  margin: -200px 0 0 -160px;
+  transform-style: preserve-3d;
+  transform: scale(var(--s, 0.8)) rotateX(58deg) rotateZ(calc(-38deg + var(--rz)));
+  transition: transform 0.6s var(--ease);
+}
+
+.slab {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.88);
+  transform: translateZ(calc((1.5 - var(--i)) * var(--gap) + var(--lift, 0px)));
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease), color 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+
+.active {
+  --lift: 14px;
+  color: var(--tone);
+  border-color: var(--tone);
+}
+
+.dim {
+  opacity: 0.35;
+}
+
+.pinned {
+  border-color: var(--tone);
+  box-shadow: 0 0 0 1px var(--tone) inset;
+}
+
+.art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.callout {
+  position: absolute;
+  right: 0;
+  width: 26%;
+  height: 0;
+  border-top: 1px solid var(--tone);
+  pointer-events: none;
+  transition: top 0.3s var(--ease);
+}
+
+.calloutDot {
+  position: absolute;
+  left: -3px;
+  top: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tone);
+}
+
+.phase {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--tone);
+  pointer-events: none;
+  display: none;
+}
+
+.phase span {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  white-space: nowrap;
+}
+
+.breathing .phase {
+  display: block;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ctrl {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.ctrl:hover:not(:disabled) {
+  border-color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ctrl[aria-pressed='true'] {
+  background: var(--white);
+  color: var(--brand-night);
+}
+
+.ctrl:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ctrl:focus-visible,
+.item:focus-visible {
+  outline: 3px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: 'num name' 'num short';
+  column-gap: 14px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 14px;
+  text-align: left;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line-light);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.item:hover,
+.item[aria-current='true'] {
+  border-color: var(--tone);
+  background: rgba(143, 227, 255, 0.1);
+}
+
+.item[aria-pressed='true'] {
+  border-color: var(--tone);
+}
+
+.itemNum {
+  grid-area: num;
+  font-size: 0.8rem;
+  color: var(--tone);
+}
+
+.itemName {
+  grid-area: name;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.itemShort {
+  grid-area: short;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.info {
+  border-top: 1px solid var(--line-light);
+  padding-top: 16px;
+}
+
+.infoNum {
+  margin: 0;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1;
+  color: var(--tone);
+}
+
+.infoName {
+  margin: 6px 0 10px;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--white);
+}
+
+.infoText {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ---------- Respirar ---------- */
+.breathing .slab [data-part='lungs'] {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: lungs 5s ease-in-out infinite;
+}
+
+.breathing .slab [data-part='dome'] {
+  animation: dome 5s ease-in-out infinite;
+}
+
+.breathing .slab [data-part='ribs'] {
+  animation: ribs 5s ease-in-out infinite;
+}
+
+.slab [data-part='flow'] {
+  opacity: 0;
+}
+
+.breathing .slab [data-part='flow'] {
+  opacity: 1;
+  animation: flow 5s ease-in-out infinite;
+}
+
+.phaseIn {
+  animation: phaseIn 5s steps(1, end) infinite;
+}
+
+.phaseOut {
+  animation: phaseOut 5s steps(1, end) infinite;
+}
+
+@keyframes lungs {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes dome {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes ribs {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes flow {
+  0%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dashoffset: -27;
+  }
+}
+
+@keyframes phaseIn {
+  0% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes phaseOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .root {
+    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 1fr);
+    align-items: center;
+    gap: 40px;
+  }
+
+  .stage {
+    height: clamp(420px, 46vw, 640px);
+  }
+}
+
+@media (max-width: 899px) {
+  .callout {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .slab,
+  .callout,
+  .item {
+    transition-duration: 0.01ms;
+  }
+
+  .breathing .slab [data-part],
+  .phaseIn,
+  .phaseOut {
+    animation: none;
+  }
+}
