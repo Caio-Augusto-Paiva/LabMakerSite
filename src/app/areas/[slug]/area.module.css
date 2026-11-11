@@ -9,9 +9,9 @@
 .secHead,
 .secHeadDark {
   display: grid;
-  gap: 1.1rem;
-  max-width: 58rem;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  gap: 1.96vh;
+  max-width: 103.11vh;
+  margin-bottom: clamp(3.56vh, 5vh, 6.22vh);
 }
 .secHead p {
   max-width: 52ch;
@@ -21,12 +21,12 @@
 .secNo {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1.42vh;
   font-size: 0.8rem;
 }
 .secNo::after {
   content: "";
-  width: 3rem;
+  width: min(5.33vh, 100%);
   height: 1px;
   background: currentColor;
 }
@@ -45,8 +45,8 @@
 /* ---------- HERO ---------- */
 
 .hero {
-  padding-top: 110px;
-  padding-bottom: clamp(3rem, 7vw, 6rem);
+  padding-top: 12.22vh;
+  padding-bottom: clamp(5.33vh, 7vh, 10.67vh);
   overflow: hidden;
 }
 
@@ -55,7 +55,7 @@
   z-index: -1;
   right: -10%;
   top: 2%;
-  width: min(80vw, 960px);
+  width: min(80vw, 106.67vh);
   stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 1.2;
   pointer-events: none;
@@ -67,9 +67,9 @@
 
 .heroInner {
   display: grid;
-  gap: 2rem;
+  gap: 3.56vh;
   align-items: end;
-  padding-top: clamp(1rem, 3vw, 2.5rem);
+  padding-top: clamp(1.78vh, 3vh, 4.44vh);
 }
 
 .crumb {
@@ -83,7 +83,7 @@
 .title {
   --avail: 88vw;
   display: grid;
-  margin-top: 1.1rem;
+  margin-top: 1.96vh;
   font-size: max(2.4rem, min(11.5rem, calc(var(--avail) / (var(--maxlen) * 0.5))));
   line-height: 1;
   color: var(--white);
@@ -93,15 +93,15 @@
 }
 
 .tagline {
-  margin-top: 1.4rem;
+  margin-top: 2.49vh;
   max-width: 40ch;
   font-size: clamp(1rem, 1.6vw, 1.25rem);
   color: rgba(255, 255, 255, 0.92);
 }
 
 .emblem {
-  width: clamp(190px, 22vw, 300px);
-  padding: 14px 14px 12px;
+  width: clamp(21.11vh, 22vw, 33.33vh);
+  padding: 1.56vh 1.56vh 1.33vh;
   justify-self: start;
 }
 .emblemImg {
@@ -112,7 +112,7 @@
   object-fit: cover;
 }
 .emblem p {
-  margin-top: 0.7rem;
+  margin-top: 1.24vh;
   font-size: 0.68rem;
   opacity: 0.8;
 }
@@ -132,14 +132,14 @@
 
 .feature {
   display: grid;
-  gap: 2rem;
-  margin-top: clamp(3rem, 7vw, 6rem);
-  padding-top: clamp(2rem, 4vw, 3rem);
+  gap: 3.56vh;
+  margin-top: clamp(5.33vh, 7vh, 10.67vh);
+  padding-top: clamp(3.56vh, 4vh, 5.33vh);
   border-top: 1px solid var(--line-light);
 }
 .featureText {
   display: grid;
-  gap: 1.4rem;
+  gap: 2.49vh;
   align-content: start;
 }
 .featureTitle {
@@ -157,7 +157,7 @@
 @media (min-width: 900px) {
   .feature {
     grid-template-columns: 0.8fr 1.6fr;
-    gap: 4rem;
+    gap: 7.11vh;
   }
 }
 
@@ -165,7 +165,7 @@
 
 .about {
   background: var(--paper);
-  padding: clamp(7rem, 16vw, 13rem) 0 clamp(4rem, 8vw, 7rem);
+  padding: clamp(12.44vh, 16vh, 23.11vh) 0 clamp(7.11vh, 8vh, 12.44vh);
   color: var(--white);
 }
 .about::before {
@@ -187,7 +187,7 @@
 
 .aboutInner {
   display: grid;
-  gap: 2.4rem;
+  gap: 4.27vh;
   grid-template-columns: 1fr;
 }
 
@@ -198,7 +198,7 @@
 
 .aboutBody {
   display: grid;
-  gap: 1.3rem;
+  gap: 2.31vh;
   align-content: start;
   max-width: 52ch;
   font-family: var(--font-slab);
@@ -208,17 +208,17 @@
 
 .focus {
   list-style: none;
-  margin: 0.4rem 0 0.4rem;
+  margin: 0.71vh 0 0.71vh;
   padding: 0;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.89vh;
   font-family: var(--font-ui);
   font-size: 0.92rem;
 }
 .focus li {
   display: flex;
-  gap: 0.7rem;
-  padding: 0.55rem 0;
+  gap: 1.24vh;
+  padding: 0.98vh 0;
   border-top: 1px solid var(--line-light);
 }
 .focus li::before {
@@ -228,7 +228,7 @@
 
 .outline {
   justify-self: start;
-  padding: 0.85rem 1.3rem;
+  padding: 1.51vh 2.31vh;
   border: 1.5px solid var(--white);
   font-size: 0.72rem;
   transition: background 0.25s, color 0.25s;
@@ -239,14 +239,14 @@
 }
 
 .aboutVisual {
-  max-width: 420px;
+  max-width: 46.67vh;
   box-shadow: 0 34px 50px -26px rgba(5, 15, 70, 0.7);
 }
 
 @media (min-width: 1000px) {
   .aboutInner {
     grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.75fr);
-    gap: clamp(2rem, 5vw, 5rem);
+    gap: clamp(3.56vh, 5vh, 8.89vh);
     align-items: start;
   }
   .vertical {
@@ -256,7 +256,7 @@
     align-self: end;
   }
   .aboutVisual {
-    margin-top: -4rem;
+    margin-top: -7.11vh;
   }
 }
 
@@ -267,7 +267,7 @@
 .lab,
 .projects,
 .team {
-  padding-block: clamp(4rem, 9vw, 8rem);
+  padding-block: clamp(7.11vh, 9vh, 14.22vh);
 }
 
 /* ---------- GALERIA (referência 1) ---------- */
@@ -275,7 +275,7 @@
 .gallery {
   position: relative;
   background: var(--paper);
-  padding-block: clamp(4rem, 9vw, 8rem) clamp(2rem, 5vw, 4rem);
+  padding-block: clamp(7.11vh, 9vh, 14.22vh) clamp(3.56vh, 5vh, 7.11vh);
   overflow: hidden;
 }
 
@@ -283,7 +283,7 @@
   position: relative;
   z-index: 0;
   /* a palavra entra por baixo dos cards (efeito de sobreposição), sempre inteira */
-  margin-top: calc(-1 * clamp(1.5rem, 6vw, 5.5rem));
+  margin-top: calc(-1 * clamp(2.67vh, 6vh, 9.78vh));
 }
 
 .bigWord {
@@ -302,15 +302,15 @@
   z-index: 1; /* cards acima da palavra gigante */
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.4rem;
+  gap: 2.49vh;
   align-items: start;
 }
 
 .shot {
   margin: 0;
   display: grid;
-  gap: 0.6rem;
-  padding: 10px 10px 14px;
+  gap: 1.07vh;
+  padding: 1.11vh 1.11vh 1.56vh;
   background: var(--paper);
   box-shadow: 0 30px 40px -22px rgba(15, 39, 128, 0.6);
 }
@@ -324,29 +324,29 @@
     display: flex;
     align-items: flex-start;
     gap: 0;
-    padding-block: 1rem 3rem;
+    padding-block: 1.78vh 5.33vh;
   }
   .shot {
     flex: none;
     position: relative;
   }
-  .c1 { width: 22%; z-index: 2; margin-top: 2rem; }
-  .c2 { width: 36%; z-index: 3; margin-left: -3%; margin-top: 9rem; }
+  .c1 { width: 22%; z-index: 2; margin-top: 3.56vh; }
+  .c2 { width: 36%; z-index: 3; margin-left: -3%; margin-top: 16vh; }
   .c3 { width: 26%; z-index: 2; margin-left: -4%; margin-top: 0; }
-  .c4 { width: 22%; z-index: 4; margin-left: -3%; margin-top: 6rem; }
+  .c4 { width: 22%; z-index: 4; margin-left: -3%; margin-top: 10.67vh; }
 }
 
 /* ---------- OUTRAS ÁREAS ---------- */
 
 .others {
   background: var(--paper);
-  padding-block: clamp(4rem, 9vw, 8rem);
+  padding-block: clamp(7.11vh, 9vh, 14.22vh);
 }
 .othersGrid {
   display: grid;
-  gap: clamp(1.2rem, 3vw, 2.4rem);
+  gap: clamp(2.13vh, 3vh, 4.27vh);
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding-block: 1rem;
+  padding-block: 1.78vh;
 }
 @media (min-width: 1000px) {
   .othersGrid {
@@ -356,6 +356,6 @@
 @media (max-width: 420px) {
   .othersGrid {
     grid-template-columns: 1fr;
-    max-width: 280px;
+    max-width: 31.11vh;
   }
 }

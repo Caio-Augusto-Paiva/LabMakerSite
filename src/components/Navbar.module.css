@@ -3,7 +3,7 @@
   left: 16px;
   top: -80px;
   z-index: 100;
-  padding: 0.7rem 1rem;
+  padding: 1.24vh 1.78vh;
   background: var(--ink);
   color: var(--white);
   font-family: var(--font-mono);
@@ -19,13 +19,13 @@
   top: 12px;
   left: 12px;
   right: 12px;
-  max-width: calc(var(--maxw) - 24px);
+  max-width: calc(var(--maxw) - 2.67vh);
   margin-inline: auto;
-  height: 58px;
+  height: max(6.44vh, 48px); /* piso para janelas muito baixas (celular deitado) */
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  padding: 0 1.9rem;
+  gap: 2.13vh;
+  padding: 0 3.38vh;
   /* mais opaco que a placa padrão para o texto ficar legível sobre qualquer seção */
   background: linear-gradient(135deg, rgba(246, 246, 242, 0.97), rgba(236, 236, 230, 0.95));
 }
@@ -33,13 +33,13 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 1.24vh;
   flex: none;
 }
 
 .logo {
-  width: 36px;
-  height: 36px;
+  width: min(4vh, 100%);
+  height: 4vh;
   border-radius: 8px;
 }
 
@@ -57,32 +57,37 @@
 
 .kicker {
   display: none;
-  padding-left: 0.8rem;
+  padding-left: 1.42vh;
   border-left: 1px solid var(--line-ink);
   color: var(--ink-soft);
   font-size: 0.68rem;
   line-height: 1.3;
-  max-width: 9rem;
+  max-width: 16vh;
 }
 
 .links {
   display: none;
-  margin-left: auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.27vh;
 }
 
 .link {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  padding: 0.5rem 0.45rem;
+  align-items: center;
+  gap: 0.71vh;
+  max-width: max(17.78vh, 10.5rem); /* piso: a palavra mais longa (SUSTENTABILIDADE) não pode vazar da caixa */
+  padding: 0.89vh 0.8vh;
+  line-height: 1.2;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink);
-  white-space: nowrap;
+  /* nomes completos em até 2 linhas: assim cabem todos na barra sem estourar a tela */
+  white-space: normal;
   position: relative;
 }
 .link .n {
@@ -107,12 +112,13 @@
 }
 
 .index {
+  flex: none;
   margin-left: auto;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  height: 38px;
-  padding: 0 1.1rem;
+  gap: 1.07vh;
+  height: 4.22vh;
+  padding: 0 1.96vh;
   border: 0;
   border-radius: 999px;
   background: var(--ink);
@@ -129,25 +135,25 @@
 }
 .burger {
   display: grid;
-  gap: 4px;
+  gap: 0.44vh;
 }
 .burger i {
   display: block;
-  width: 14px;
+  width: min(1.56vh, 100%);
   height: 1.5px;
   background: currentColor;
 }
 
-/* nomes completos das áreas: a partir de 1280px cabem todos na barra; abaixo, só o botão Índice */
-@media (min-width: 1280px) {
+/* nomes completos das áreas (2 linhas cada): a partir de 1240px cabem todos na barra; abaixo, só o botão Índice */
+@media (min-width: 1240px) {
   .links {
     display: flex;
   }
   .index {
-    margin-left: 0.6rem;
+    margin-left: 1.07vh;
   }
 }
-@media (min-width: 1640px) {
+@media (min-width: 1760px) {
   .kicker {
     display: block;
   }
@@ -179,13 +185,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-block: 1.4rem;
+  padding-block: 2.49vh;
 }
 
 .close {
   border: 1.5px solid currentColor;
   background: transparent;
-  padding: 0.65rem 1.1rem;
+  padding: 1.16vh 1.96vh;
   font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.1em;
@@ -201,7 +207,7 @@
 .list {
   list-style: none;
   margin: 0;
-  padding-block: 1rem 3rem;
+  padding-block: 1.78vh 5.33vh;
   display: grid;
   align-content: center;
   flex: 1;
@@ -224,15 +230,15 @@
 
 .item {
   display: grid;
-  grid-template-columns: 3rem 1fr;
+  grid-template-columns: 5.33vh 1fr;
   align-items: baseline;
-  gap: 0.2rem 1rem;
-  padding: 1rem 0;
+  gap: 0.36vh 1.78vh;
+  padding: 1.78vh 0;
   transition: padding 0.35s var(--ease), color 0.25s;
 }
 .item:hover,
 .item[aria-current="page"] {
-  padding-left: 1rem;
+  padding-left: 1.78vh;
   color: var(--white);
   background: rgba(255, 255, 255, 0.1);
 }
@@ -252,7 +258,7 @@
 
 @media (min-width: 900px) {
   .item {
-    grid-template-columns: 4rem 1fr auto;
+    grid-template-columns: 7.11vh 1fr auto;
     align-items: center;
   }
   .itemNo {

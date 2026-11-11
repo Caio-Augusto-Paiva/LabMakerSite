@@ -8,8 +8,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1.33vh 2.67vh;
+  margin-bottom: 2.67vh;
 }
 
 .counters {
@@ -23,12 +23,12 @@
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.89vh;
 }
 
 .chip {
-  min-height: 36px;
-  padding: 0.4rem 0.9rem;
+  min-height: max(4vh, 36px);
+  padding: 0.71vh 1.6vh;
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -60,7 +60,7 @@
 .layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2.67vh;
   align-items: center;
 }
 
@@ -105,8 +105,8 @@
   top: 0;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: min(4vh, 100%);
+  height: 4vh;
   padding: 0;
   margin: 0;
   border: 0;
@@ -121,8 +121,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
+  width: min(2.89vh, 100%);
+  height: 2.89vh;
   border-radius: 50%;
   background: var(--pin);
   border: 2px solid var(--white);
@@ -155,8 +155,8 @@
 }
 
 .legend {
-  margin: 1rem 0 0;
-  max-width: 560px;
+  margin: 1.78vh 0 0;
+  max-width: 62.22vh;
   font-size: 0.78rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.85);
@@ -167,8 +167,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 2rem 1.5rem 1.5rem;
+  gap: 2.22vh;
+  padding: 3.56vh 2.67vh 2.67vh;
   color: var(--white);
   min-width: 0;
 }
@@ -176,21 +176,21 @@
 .cardBody {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 1.07vh;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0.75rem;
+  gap: 0.89vh 1.33vh;
 }
 
 .tag {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.25rem 0.65rem;
+  gap: 0.71vh;
+  padding: 0.44vh 1.16vh;
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -207,7 +207,7 @@
 }
 
 .value {
-  margin: 0.25rem 0 0;
+  margin: 0.44vh 0 0;
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 5rem);
   line-height: 1;
@@ -237,8 +237,8 @@
 }
 
 .labmaker {
-  margin: 0.4rem 0 0;
-  padding-top: 0.75rem;
+  margin: 0.71vh 0 0;
+  padding-top: 1.33vh;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   font-size: 0.9rem;
   line-height: 1.5;
@@ -252,12 +252,12 @@
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.89vh;
 }
 
 .ctrl {
-  min-height: 40px;
-  padding: 0.5rem 1rem;
+  min-height: max(4.44vh, 40px);
+  padding: 0.89vh 1.78vh;
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -279,12 +279,12 @@
 
 @media (min-width: 960px) {
   .layout {
-    grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
-    gap: 2.5rem;
+    grid-template-columns: minmax(0, 62.22vh) minmax(0, 1fr);
+    gap: 4.44vh;
   }
 
   .card {
-    padding: 2.25rem 2rem 1.75rem;
+    padding: 4vh 3.56vh 3.11vh;
   }
 }
 

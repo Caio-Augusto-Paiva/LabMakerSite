@@ -28,8 +28,8 @@
   --font-slab: var(--font-zilla), Georgia, serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  --gutter: clamp(16px, 4vw, 56px);
-  --maxw: 1440px;
+  --gutter: min(6.22vh, 5vw); /* margem lateral em vh; o 5vw só impede que sobre pouco espaço em telas estreitas */
+  --maxw: 160vh;
   --radius: 14px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -47,7 +47,7 @@
 }
 
 html {
-  scroll-padding-top: 90px;
+  scroll-padding-top: 10vh;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -181,8 +181,8 @@ button {
 }
 .screw {
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: min(1vh, 100%);
+  height: 1vh;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fff, #8e97ad 62%, #5d6679);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
@@ -204,8 +204,8 @@ button {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.85rem 1.3rem;
+  gap: 1.07vh;
+  padding: 1.51vh 2.31vh;
   border: 1.5px solid currentColor;
   font-family: var(--font-mono);
   font-size: 0.74rem;

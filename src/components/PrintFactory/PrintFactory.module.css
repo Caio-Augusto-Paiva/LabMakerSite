@@ -13,8 +13,8 @@
   width: 100%;
   box-sizing: border-box;
   display: grid;
-  gap: 12px;
-  padding: 12px;
+  gap: 1.33vh;
+  padding: 1.33vh;
   color: var(--white);
   background: var(--brand-night);
   border-radius: calc(var(--radius) + 6px);
@@ -25,18 +25,18 @@
 .bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.89vh;
   align-items: center;
   justify-content: space-between;
 }
 .cams {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 0.67vh;
 }
 .ctl {
-  min-height: 40px;
-  padding: 0 14px;
+  min-height: max(4.44vh, 40px);
+  padding: 0 1.56vh;
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -70,7 +70,7 @@
 /* ---------- Layout ---------- */
 .layout {
   display: grid;
-  gap: 12px;
+  gap: 1.33vh;
   grid-template-columns: minmax(0, 1fr);
 }
 @media (min-width: 960px) {
@@ -419,8 +419,8 @@
 .side {
   display: grid;
   align-content: start;
-  gap: 14px;
-  padding: 14px;
+  gap: 1.56vh;
+  padding: 1.56vh;
   color: var(--white);
   background-color: rgba(15, 39, 128, 0.55);
   border-radius: var(--radius);
@@ -430,16 +430,16 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 6px;
+  gap: 0.67vh;
 }
 .item {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 12px;
+  gap: 1.33vh;
   align-items: center;
   width: 100%;
-  min-height: 44px;
-  padding: 8px 12px;
+  min-height: max(4.89vh, 44px);
+  padding: 0.89vh 1.33vh;
   text-align: left;
   color: var(--white);
   background: rgba(255, 255, 255, 0.06);
@@ -465,7 +465,7 @@
 }
 
 .detail {
-  padding-top: 12px;
+  padding-top: 1.33vh;
   border-top: 1.5px solid var(--line-light);
 }
 .bigN {
@@ -475,7 +475,7 @@
   color: var(--accent-text);
 }
 .dTitle {
-  margin: 6px 0 8px;
+  margin: 0.67vh 0 0.89vh;
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 400;
@@ -483,7 +483,7 @@
   letter-spacing: 0.02em;
 }
 .dText {
-  margin: 0 0 12px;
+  margin: 0 0 1.33vh;
   font-size: 15px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.92);
@@ -491,10 +491,10 @@
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 0.67vh;
 }
 .chip {
-  padding: 6px 10px;
+  padding: 0.67vh 1.11vh;
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.06em;

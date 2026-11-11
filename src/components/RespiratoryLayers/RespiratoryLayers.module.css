@@ -3,7 +3,7 @@
   --gap: 6px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 28px;
+  gap: 3.11vh;
   color: var(--white);
 }
 
@@ -13,7 +13,7 @@
 
 .stage {
   position: relative;
-  height: clamp(380px, 60vw, 640px);
+  height: clamp(42.22vh, 60vh, 71.11vh);
   perspective: 1600px;
   touch-action: pan-y;
   overflow: hidden;
@@ -78,8 +78,8 @@
   position: absolute;
   left: -3px;
   top: -4px;
-  width: 7px;
-  height: 7px;
+  width: min(0.78vh, 100%);
+  height: 0.78vh;
   border-radius: 50%;
   background: var(--tone);
 }
@@ -109,18 +109,18 @@
 .side {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 2vh;
   min-width: 0;
 }
 
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 22px;
+  gap: 0.67vh 2.44vh;
 }
 
 .ctrl {
-  min-height: 44px;
+  min-height: max(4.89vh, 44px);
   padding: 0;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
@@ -166,11 +166,11 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-areas: 'num name' 'num short';
-  column-gap: 14px;
+  column-gap: 1.56vh;
   align-items: center;
   width: 100%;
-  min-height: 44px;
-  padding: 8px 0;
+  min-height: max(4.89vh, 44px);
+  padding: 0.89vh 0;
   text-align: left;
   color: var(--white);
   background: none;
@@ -211,7 +211,7 @@
 }
 
 .info {
-  padding-top: 8px;
+  padding-top: 0.89vh;
 }
 
 .infoNum {
@@ -222,7 +222,7 @@
 }
 
 .infoName {
-  margin: 6px 0 10px;
+  margin: 0.67vh 0 1.11vh;
   font-size: clamp(1.4rem, 3vw, 2rem);
   line-height: 1.05;
   text-transform: uppercase;
@@ -334,13 +334,13 @@
 
 @media (min-width: 900px) {
   .root {
-    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 1fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(33.33vh, 1fr);
     align-items: center;
-    gap: 40px;
+    gap: 4.44vh;
   }
 
   .stage {
-    height: clamp(420px, 46vw, 640px);
+    height: clamp(46.67vh, 46vh, 71.11vh);
   }
 }
 

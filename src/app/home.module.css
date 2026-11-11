@@ -7,16 +7,16 @@
 
 .hero {
   background: var(--paper);
-  padding-top: 98px;
-  padding-bottom: clamp(2.5rem, 6vw, 5rem);
+  padding-top: 10.89vh;
+  padding-bottom: clamp(4.44vh, 6vh, 8.89vh);
   overflow: hidden;
 }
 
 .heroMeta {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  padding-block: 0.9rem;
+  gap: 1.78vh;
+  padding-block: 1.6vh;
   border-bottom: 1px solid var(--line-ink);
   color: var(--ink-soft);
   font-size: 0.68rem;
@@ -24,8 +24,8 @@
 
 .stage {
   position: relative;
-  margin-top: clamp(0.6rem, 2vw, 1.6rem);
-  padding-bottom: clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: clamp(1.07vh, 2vh, 2.84vh);
+  padding-bottom: clamp(2.67vh, 4vh, 6.22vh);
 }
 
 .mega {
@@ -48,9 +48,9 @@
   z-index: 2;
   left: 50%;
   top: 54%;
-  width: min(580px, 58%);
+  width: min(64.44vh, 58%);
   transform: translate(-50%, -50%);
-  padding: 1.1rem 1.4rem 1.2rem;
+  padding: 1.96vh 2.49vh 2.13vh;
   animation: rise 0.9s var(--ease) 0.15s both;
   /* único painel da tela com vidro borrado (fica sobre as letras gigantes) */
   backdrop-filter: blur(10px);
@@ -60,7 +60,7 @@
 .cardHead {
   display: flex;
   justify-content: space-between;
-  padding: 0 0.6rem 0.8rem;
+  padding: 0 1.07vh 1.42vh;
   color: var(--ink-soft);
   font-size: 0.6rem;
 }
@@ -68,12 +68,12 @@
 .cardBody {
   display: flex;
   align-items: center;
-  gap: 1.3rem;
-  padding: 0.4rem 0.6rem;
+  gap: 2.31vh;
+  padding: 0.71vh 1.07vh;
 }
 
 .avatar {
-  width: clamp(72px, 9vw, 104px);
+  width: clamp(8vh, 9vw, 11.56vh);
   height: auto;
   aspect-ratio: 1;
   flex: none;
@@ -89,7 +89,7 @@
 }
 
 .cardSub {
-  margin-top: 0.6rem;
+  margin-top: 1.07vh;
   color: var(--ink-soft);
   font-size: 0.68rem;
 }
@@ -97,9 +97,9 @@
 .cardFoot {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1.1rem;
-  margin-top: 0.9rem;
-  padding: 0.8rem 0.6rem 0;
+  gap: 0.62vh 1.96vh;
+  margin-top: 1.6vh;
+  padding: 1.42vh 1.07vh 0;
   border-top: 1px solid rgba(13, 15, 20, 0.18);
   color: var(--ink-soft);
   font-size: 0.68rem;
@@ -109,9 +109,9 @@
   position: absolute;
   z-index: 3;
   display: grid;
-  gap: 0.25rem;
-  width: 208px;
-  padding: 1rem 1.15rem 1.05rem;
+  gap: 0.44vh;
+  width: min(23.11vh, 100%);
+  padding: 1.78vh 2.04vh 1.87vh;
   border-radius: 5px;
   color: var(--white);
   box-shadow: 0 14px 28px -12px rgba(13, 15, 20, 0.5);
@@ -150,8 +150,8 @@
   right: 13%;
   bottom: 0;
   display: grid;
-  gap: 0.15rem;
-  padding: 0.85rem 3.2rem 0.85rem 1.1rem;
+  gap: 0.27vh;
+  padding: 1.51vh 5.69vh 1.51vh 1.96vh;
   border-radius: 8px;
   background: var(--ink);
   color: var(--white);
@@ -192,8 +192,8 @@
   top: 56%;
   display: grid;
   justify-items: center;
-  gap: 0.3rem;
-  padding: 0.55rem 0.7rem 0.4rem;
+  gap: 0.53vh;
+  padding: 0.98vh 1.24vh 0.71vh;
   background: var(--white);
   border-radius: 4px;
   box-shadow: 0 8px 20px -10px rgba(13, 15, 20, 0.4);
@@ -201,8 +201,8 @@
 }
 .barcode i {
   display: block;
-  width: 70px;
-  height: 34px;
+  width: min(7.78vh, 100%);
+  height: 3.78vh;
   background: repeating-linear-gradient(
     90deg,
     var(--ink) 0 2px,
@@ -217,10 +217,10 @@
 .scope {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem 4rem;
+  gap: 1.78vh 7.11vh;
   align-items: end;
-  margin-top: clamp(1rem, 3vw, 2.5rem);
-  padding-top: 1.4rem;
+  margin-top: clamp(1.78vh, 3vh, 4.44vh);
+  padding-top: 2.49vh;
   border-top: 1px solid var(--line-ink);
 }
 
@@ -247,7 +247,7 @@
 @media (max-width: 860px) {
   .stage {
     display: grid;
-    gap: 0.9rem;
+    gap: 1.6vh;
   }
   .card,
   .tag,
@@ -263,7 +263,7 @@
   }
   .tag {
     width: auto;
-    max-width: 320px;
+    max-width: 35.56vh;
   }
   .tagOrange {
     transform: rotate(-1.5deg);
@@ -310,14 +310,14 @@
 .secNoLight {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1.42vh;
   font-size: 0.8rem;
   color: var(--brand);
 }
 .secNo::after,
 .secNoLight::after {
   content: "";
-  width: 3rem;
+  width: min(5.33vh, 100%);
   height: 1px;
   background: currentColor;
 }
@@ -329,24 +329,24 @@
 
 .intro {
   background: var(--paper);
-  padding-block: clamp(4rem, 9vw, 8rem);
+  padding-block: clamp(7.11vh, 9vh, 14.22vh);
 }
 
 .introGrid {
   display: grid;
-  gap: 2.5rem;
+  gap: 4.44vh;
   grid-template-columns: 1fr;
 }
 
 .introHead {
   display: grid;
-  gap: 1.2rem;
+  gap: 2.13vh;
   align-content: start;
 }
 
 .introText {
   display: grid;
-  gap: 1rem;
+  gap: 1.78vh;
   align-content: start;
   max-width: 46ch;
   font-size: 0.95rem;
@@ -354,7 +354,7 @@
 }
 
 .note {
-  margin-top: 0.4rem;
+  margin-top: 0.71vh;
   color: var(--accent-ink);
   font-size: 0.6rem;
 }
@@ -365,21 +365,21 @@
 }
 
 .frame {
-  padding: 10px;
+  padding: 1.11vh;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
   border-color: #fff;
   box-shadow: 0 30px 50px -28px rgba(15, 39, 128, 0.5), 0 0 0 1px rgba(13, 15, 20, 0.06);
 }
 .frameMain {
   width: 88%;
-  padding: 14px;
+  padding: 1.56vh;
 }
 .framePhoneA {
   position: absolute;
   right: 0;
   bottom: 0;
   width: 25%;
-  padding: 7px;
+  padding: 0.78vh;
   border-radius: 14px;
 }
 .framePhoneB {
@@ -387,14 +387,14 @@
   right: 23%;
   bottom: -6%;
   width: 22%;
-  padding: 7px;
+  padding: 0.78vh;
   border-radius: 14px;
 }
 
 @media (min-width: 1100px) {
   .introGrid {
     grid-template-columns: 1.05fr 0.85fr 1.3fr;
-    gap: 3rem;
+    gap: 5.33vh;
     align-items: center;
   }
 }
@@ -402,13 +402,13 @@
 /* ---------- 02 — áreas (blueprint) ---------- */
 
 .areas {
-  padding-block: clamp(4rem, 9vw, 8rem);
+  padding-block: clamp(7.11vh, 9vh, 14.22vh);
 }
 
 .areasHead {
   display: grid;
-  gap: 1.4rem;
-  max-width: 60rem;
+  gap: 2.49vh;
+  max-width: 106.67vh;
 }
 
 .areasLead {
@@ -419,8 +419,8 @@
 .diagram {
   position: relative;
   display: grid;
-  gap: clamp(1rem, 2.4vw, 2rem);
-  margin-top: clamp(2.5rem, 5vw, 4rem);
+  gap: clamp(1.78vh, 2.4vh, 3.56vh);
+  margin-top: clamp(4.44vh, 5vh, 7.11vh);
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-areas:
     "a1 core a2"
@@ -459,8 +459,8 @@
   z-index: 0;
   left: 50%;
   top: 50%;
-  width: 12px;
-  height: 12px;
+  width: min(1.33vh, 100%);
+  height: 1.33vh;
   background: var(--accent);
   border: 2px solid #fff;
   transform: translate(-50%, -50%) rotate(45deg);
@@ -471,8 +471,8 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  padding: 1.6rem 1.5rem 1.4rem;
+  gap: 1.6vh;
+  padding: 2.84vh 2.67vh 2.49vh;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
     rgba(15, 39, 128, 0.5);
@@ -496,9 +496,9 @@
 }
 
 .nodeCard {
-  width: min(100%, 250px);
+  width: min(100%, 27.78vh);
   margin-inline: auto;
-  padding-block: 0.5rem;
+  padding-block: 0.89vh;
 }
 
 .nodeText {
@@ -510,7 +510,7 @@
 .nodeLink {
   margin-top: auto;
   align-self: flex-start;
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.36vh;
   border-bottom: 1.5px solid var(--accent);
   color: var(--white);
   font-size: 0.68rem;
@@ -518,7 +518,7 @@
 }
 .nodeLink:hover {
   color: var(--accent-text);
-  padding-right: 0.5rem;
+  padding-right: 0.89vh;
 }
 
 .core {
@@ -535,8 +535,8 @@
   justify-content: center;
 }
 .coreLogo {
-  width: 96px;
-  height: 96px;
+  width: min(10.67vh, 100%);
+  height: 10.67vh;
   border-radius: 18px;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
@@ -545,14 +545,14 @@
 }
 .coreData {
   width: 100%;
-  margin: 0.4rem 0 0;
+  margin: 0.71vh 0 0;
   font-size: 0.66rem;
 }
 .coreData div {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 0;
+  gap: 1.78vh;
+  padding: 0.89vh 0;
   border-bottom: 1px dashed var(--line-light);
 }
 .coreData dt {
@@ -564,9 +564,9 @@
 }
 .live {
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 0.3rem;
+  width: min(0.89vh, 100%);
+  height: 0.89vh;
+  margin-right: 0.53vh;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.35);
@@ -595,7 +595,7 @@
     display: none;
   }
   .node[data-slot="a5"] {
-    width: calc(50% - 0.5rem);
+    width: calc(50% - 0.89vh);
     justify-self: center;
   }
 }
@@ -620,13 +620,13 @@
 
 .featured {
   background: var(--paper);
-  padding-block: clamp(4rem, 9vw, 8rem);
+  padding-block: clamp(7.11vh, 9vh, 14.22vh);
 }
 
 .featHead {
   display: grid;
-  gap: 1.2rem;
-  margin-bottom: clamp(2rem, 5vw, 4rem);
+  gap: 2.13vh;
+  margin-bottom: clamp(3.56vh, 5vh, 7.11vh);
 }
 .featLead {
   max-width: 48ch;

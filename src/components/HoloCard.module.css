@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.6rem 0.9rem 0.7rem;
+  gap: 1.24vh;
+  padding: 1.07vh 1.6vh 1.24vh;
   background: var(--brand-night);
   color: var(--white);
 }
@@ -165,8 +165,8 @@
 .back {
   transform: rotateY(180deg);
   justify-content: space-between;
-  gap: 0.8rem;
-  padding: 1.1rem 1.1rem 1.2rem;
+  gap: 1.42vh;
+  padding: 1.96vh 1.96vh 2.13vh;
   color: var(--white);
   background:
     linear-gradient(var(--line-light) 1px, transparent 1px) 0 0 / 100% 28px,
@@ -186,8 +186,8 @@
 }
 
 .backBtn {
-  min-height: 32px;
-  padding: 0 0.7rem;
+  min-height: 3.56vh;
+  padding: 0 1.24vh;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 999px;
   background: transparent;
@@ -227,9 +227,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  min-height: 44px;
-  padding: 0 1rem;
+  gap: 1.07vh;
+  min-height: max(4.89vh, 44px);
+  padding: 0 1.78vh;
   border-radius: 999px;
   background: var(--white);
   color: var(--brand-night);

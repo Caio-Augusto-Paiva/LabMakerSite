@@ -28,7 +28,7 @@
   font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.3rem 0.5rem;
+  padding: 0.53vh 0.89vh;
   background: var(--brand-night);
   color: var(--white);
   line-height: 1.2;
@@ -42,7 +42,7 @@
 .label {
   left: 10px;
   top: 10px;
-  max-width: calc(100% - 20px);
+  max-width: calc(100% - 2.22vh);
 }
 
 .ratio {
@@ -55,8 +55,8 @@
 
 .corner {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: min(1.33vh, 100%);
+  height: 1.33vh;
   border: 0 solid var(--ph-fg);
   opacity: 0.8;
 }
