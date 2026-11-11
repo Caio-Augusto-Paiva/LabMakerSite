@@ -50,7 +50,7 @@ export default function Footer() {
           )}
           {SITE.university && (
             <>
-              <p className={`${styles.head} mono`} style={{ marginTop: "1.4rem" }}>
+              <p className={`${styles.head} mono`} style={{ marginTop: "2.49vh" }}>
                 Instituição
               </p>
               <p className={styles.soon}>{SITE.university}</p>
